@@ -33,10 +33,10 @@ const Thumbnail = () => {
       </div>
       {showModal && (
         <button
-          className="fixed bg-gray-900 text-white flex items-center justify-center p-2 bg-opacity-50 left-8 z-30 top-8 rounded-md group hover:border-white"
+          className="fixed bg-gray-900 text-gray-300 flex items-center justify-center p-2 bg-opacity-50 left-8 z-30 top-8 rounded-md group border-2 border-gray-400 hover:border-white hover:text-indigo-300"
           onClick={() => setShowModal(false)}
         >
-          <ArrowLeftIcon className="h-8 w-8" /> Back
+          <ArrowLeftIcon className="h-8 w-8 " /> Back
         </button>
       )}
 
