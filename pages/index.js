@@ -22,7 +22,7 @@ export default function Home(props) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const request = await fetch('http://localhost:5000/books').then((res) =>
     res.json()
   );

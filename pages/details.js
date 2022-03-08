@@ -1,15 +1,17 @@
 import { useRouter } from 'next/router';
 
 import Image from 'next/image';
-import Thumbnail from '../components/Thumbnail';
+import MiniThumbnail from '../components/MiniThumbnail';
 
 const Details = (props) => {
-  const otherBooksData = props.request;
+  const otherBooksData = props.resOther;
+  const bookDetails = props.resDetail[0];
+
   return (
-    <div className="p-4 md:grid md:grid-cols-2 md:gap-2 lg:gap-4 items-center">
-      <div className="rounded-lg overflow-hidden">
+    <div className="p-4 md:grid md:grid-cols-2 row-span-2 md:gap-2 lg:gap-4 items-center">
+      <div className="rounded-lg overflow-hidden ">
         <Image
-          src="https://drive.google.com/uc?export=view&id=1VBdvrqY6p-kJ1DRlVkZwsZdTk0kUl82X"
+          src={bookDetails[5]}
           width={800}
           height={800}
           objectFit="fill"
@@ -17,30 +19,21 @@ const Details = (props) => {
           alt="book cover"
         />
       </div>
-      <div className="self-stretch p-2 text-white rounded-lg md:border-2 md:border-purple-200 md:border-opacity-10 space-y-2">
-        <h1 className="text-3xl md:text-6xl font-bold text-yellow-200">
-          Laskar Pelangi
-        </h1>
-        <p className="text-sm text-gray-300">
-          Date Added : "Mon, 07 Mar 2022 17:23:27 GMT"
-        </p>
+      <div className="self-stretch space-y-3 md:space-y-0 md:grid md:items-center p-2 text-white rounded-lg md:border-2 md:border-purple-200 md:border-opacity-10">
+        <div>
+          <h1 className="text-3xl md:text-6xl font-bold text-yellow-200">
+            {bookDetails[1]}
+          </h1>
+          <p className="text-sm text-gray-300">Date Added : {bookDetails[6]}</p>
+        </div>
         <div className="">
-          <p className="text-sm md:text-md">
-            "Bangunan itu nyaris rubuh. Dindingnya miring bersangga sebalok
-            kayu. Atapnya bocor di mana-mana. Tetapi, berpasang-pasang mata
-            mungil menatap penuh harap. Hendak ke mana lagikah mereka harus
-            bersekolah selain tempat itu? Tak peduli seberat apa pun kondisi
-            sekolah itu, sepuluh anak dari keluarga miskin itu tetap bergeming.
-            Di dada mereka, telah menggumpal tekad untuk maju." Laskar Pelangi,
-            kisah perjuangan anak-anak untuk mendapatkan ilmu. Diceritakan
-            dengan lucu dan menggelitik, novel ini menjadi novel terlaris di
-            Indonesia. Inspiratif dan layak dimiliki siapa saja yang mencintai
-            pendidikan dan keajaiban masa kanak-kanak."
-          </p>
+          <p className="text-sm md:text-md lg:text-lg">{bookDetails[2]}</p>
         </div>
         <div>
           <p>Harga: </p>
-          <p className="font-semibold text-2xl">Rp70000.00</p>
+          <p className="font-semibold text-2xl md:text-3xl">
+            Rp{bookDetails[3]}
+          </p>
         </div>
         <div className="grid grid-cols-2 gap-4 items-center justify-center">
           <button className="font-bold border-2 border-purple-400 hover:border-purple-600 rounded-lg p-2 text-purple-300 hover:text-purple-500 md:text-lg">
@@ -51,16 +44,14 @@ const Details = (props) => {
           </button>
         </div>
       </div>
-      <div className="flex gap-2 col-span-2 overflow-y-scroll">
+      <div className="flex gap-3 p-3 col-span-2 overflow-y-scroll">
         {otherBooksData.map((book) => (
-          <Thumbnail
+          <MiniThumbnail
             key={book[0]}
             bookId={book[0]}
             imgUrl={book[5]}
             title={book[1]}
             price={book[3]}
-            dateAdded={book[6]}
-            available={book[4]}
           />
         ))}
       </div>
@@ -71,10 +62,14 @@ const Details = (props) => {
 export default Details;
 
 export async function getServerSideProps(context) {
-  const request = await fetch(`http://localhost:5000/books`).then((res) =>
-    res.json()
-  );
-  return {
-    props: { request }, // will be passed to the page component as props
-  };
+  const [requestDetail, requestOther] = await Promise.all([
+    fetch(`http://localhost:5000/details?id=${context.query.id}`),
+    fetch(`http://localhost:5000/books`),
+  ]);
+  const [resDetail, resOther] = await Promise.all([
+    requestDetail.json(),
+    requestOther.json(),
+  ]);
+
+  return { props: { resDetail, resOther } };
 }

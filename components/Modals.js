@@ -34,7 +34,7 @@ const Modals = ({
             Date Added : {dateAdded}
           </p>
 
-          <Link href={`/details/?id=${bookId}`}>
+          <Link href={`/details?id=${bookId}`}>
             <button className="my-2 self-stretch bg-indigo-300 hover:bg-purple-200 hover:text-indigo-300 text-gray-300 flex items-center gap-2 justify-center p-2 bg-opacity-60 left-8 z-30 top-8 rounded-md hover:border-purple-100 border-gray-400 border-2 transition-colors ease-in-out duration-300">
               Details <ArrowRightIcon className="w-8 h-8" />
             </button>
