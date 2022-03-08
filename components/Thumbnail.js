@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Modals from './Modals';
 import { ArrowLeftIcon } from '@heroicons/react/solid';
 
-const Thumbnail = () => {
+const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -12,22 +12,29 @@ const Thumbnail = () => {
         onClick={() => setShowModal(true)}
         className="border group hover:border-opacity-100 cursor-pointer border-white border-opacity-25 rounded-lg text-white p-3 transition-all ease-in-out duration-300"
       >
-        <div>
-          <Image src={bookCover} width={800} height={800} alt="book cover" />
+        <div className="overflow-hidden rounded-md">
+          <Image
+            src={imgUrl}
+            width={800}
+            height={800}
+            alt="book cover"
+            layout="responsive"
+            objectFit="cover"
+          />
         </div>
         <div className="flex flex-col">
-          <h2 className=" group-hover:animate-pulse transition-all ease-in-out duration-300 font-bold text-2xl md:text-3xl ">
-            Harry Potter
+          <h2 className="  transition-all ease-in-out duration-300 font-bold text-2xl md:text-3xl ">
+            {title}
           </h2>
-          <p className="opacity-70 group-hover:opacity-100 flex text-sm md:text-md">
-            J.K. Rowling
+          <p className=" md:text-lg group-hover:animate-pulse opacity-75">
+            {available} left
           </p>
-          <p className="font-semibold text-lg md:text-xl py-1 opacity-90 group-hover:opacity-100 ">
-            Rp 200.000,00
+          <p className="font-semibold text-xl md:text-xl py-1 opacity-90 group-hover:opacity-100 ">
+            Rp{price}
           </p>
           <hr className="w-11/12 opacity-25 transition-all ease-in-out duration-300 group-hover:opacity-100 self-center" />
-          <p className="self-end pt-3 text-sm lg:text-md opacity-75">
-            Release Date : 20-02-2002
+          <p className="self-end pt-3 text-xs lg:text-md opacity-75">
+            Added : {dateAdded}
           </p>
         </div>
       </div>
@@ -40,7 +47,15 @@ const Thumbnail = () => {
         </button>
       )}
 
-      <Modals isShown={showModal}></Modals>
+      <Modals
+        isShown={showModal}
+        title={title}
+        imgUrl={imgUrl}
+        dateAdded={dateAdded}
+        available={available}
+        price={price}
+        bookId={bookId}
+      ></Modals>
     </>
   );
 };

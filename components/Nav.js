@@ -3,7 +3,7 @@ import Link from 'next/link';
 const Nav = () => {
   return (
     <nav>
-      <div className="flex flex-col gap-4 lg:gap-0 lg:flex-row bg-indigo-900 text-white justify-between items-center px-3 py-2 sm:px-10 ">
+      <div className="flex flex-col gap-4 lg:gap-0 lg:flex-row bg-[#323969] text-white justify-between items-center px-3 py-2 sm:px-10 ">
         <Link href="/">
           <h1 className="text-3xl font-bold cursor-pointer">Zona Buku</h1>
         </Link>
