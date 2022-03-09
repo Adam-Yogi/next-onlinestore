@@ -23,10 +23,14 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
           />
         </div>
         <div className="flex flex-col">
-          <h2 className="  transition-all ease-in-out duration-300 font-bold text-2xl md:text-3xl ">
+          <h2
+            className={`${
+              title.length > 15 && 'truncate'
+            } transition-all ease-in-out duration-300 font-bold text-2xl md:text-3xl`}
+          >
             {title}
           </h2>
-          <p className=" md:text-lg group-hover:animate-pulse opacity-75">
+          <p className=" md:text-lg group-hover:animate-pulse text-gray-300 group-hover:text-white">
             {available} left
           </p>
           <p className="font-semibold text-xl md:text-xl py-1 opacity-90 group-hover:opacity-100 ">

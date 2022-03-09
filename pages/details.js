@@ -9,7 +9,7 @@ const Details = (props) => {
 
   return (
     <div className="p-4 md:grid md:grid-cols-2 row-span-2 md:gap-2 lg:gap-4 items-center">
-      <div className="rounded-lg overflow-hidden ">
+      <div className="rounded-lg shadow-xl overflow-hidden ">
         <Image
           src={bookDetails[5]}
           width={800}
@@ -27,7 +27,7 @@ const Details = (props) => {
           <p className="text-sm text-gray-300">Date Added : {bookDetails[6]}</p>
         </div>
         <div className="">
-          <p className="text-sm md:text-md lg:text-lg">{bookDetails[2]}</p>
+          <p className="text-sm md:text-md lg:text-xl">{bookDetails[2]}</p>
         </div>
         <div>
           <p>Harga: </p>
@@ -44,7 +44,7 @@ const Details = (props) => {
           </button>
         </div>
       </div>
-      <div className="flex gap-3 p-3 col-span-2 overflow-y-scroll">
+      <div className="flex scrollbar-hide gap-3 p-3 col-span-2 overflow-y-scroll">
         {otherBooksData.map((book) => (
           <MiniThumbnail
             key={book[0]}

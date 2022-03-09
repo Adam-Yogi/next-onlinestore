@@ -1,7 +1,6 @@
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import Link from 'next/link';
-import bookCover from '../public/images/book.jpeg';
 
 const Modals = ({
   isShown,
