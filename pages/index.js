@@ -1,10 +1,11 @@
 import Container from '../components/Container';
 import Thumbnail from '../components/Thumbnail';
+import LayoutNav from '../components/LayoutNav';
 
 export default function Home(props) {
   const booksData = props.request;
   return (
-    <div>
+    <LayoutNav user>
       <Container>
         {booksData.map((book) => (
           <Thumbnail
@@ -18,7 +19,7 @@ export default function Home(props) {
           />
         ))}
       </Container>
-    </div>
+    </LayoutNav>
   );
 }
 
@@ -26,5 +27,6 @@ export async function getServerSideProps(context) {
   const request = await fetch('http://localhost:5000/books').then((res) =>
     res.json()
   );
+  console.log(request);
   return { props: { request } };
 }

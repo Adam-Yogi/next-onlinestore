@@ -1,18 +1,45 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import userAvatar from '../public/images/user.webp';
+import { ShoppingCartIcon } from '@heroicons/react/outline';
 
-const Nav = () => {
+const Nav = ({ user }) => {
+  const router = useRouter();
   return (
     <nav>
-      <div className="flex flex-col gap-4 lg:gap-0 lg:flex-row bg-[#323969] text-white justify-between items-center px-3 py-2 sm:px-10 ">
+      <div className="grid grid-rows-2 grid-cols-2 lg:flex lg:gap-0 bg-[#323969] text-white lg:justify-between items-center lg:items-center px-3 py-4 sm:px-10 ">
         <Link href="/">
-          <h1 className="text-3xl font-bold cursor-pointer">Zona Buku</h1>
+          <h1 className="text-4xl font-bold cursor-pointer">Zona Buku</h1>
         </Link>
 
-        <div className="flex space-x-10 sm:space-x-32 items-center grow justify-center tracking-widest ">
+        <div className="row-start-2 col-span-2 flex space-x-10 sm:space-x-32 items-center grow justify-center tracking-widest ">
           <Link href="/">HOME</Link>
           <p>ABOUT</p>
           <p>PRODUCTS</p>
         </div>
+        <div className="place-self-end h-12 flex items-center space-x-5">
+          <ShoppingCartIcon className="h-8 w-8" />
+
+          <div
+            onClick={() => {
+              router.push('/user/profile');
+            }}
+            className="flex flex-col cursor-pointer items-center"
+          >
+            <div className=" w-8 h-8 rounded-full overflow-hidden">
+              <Image
+                src={userAvatar}
+                objectFit="cover"
+                objectPosition="center"
+                width={50}
+                height={50}
+              />
+            </div>
+            <p className="text-sm"> John Wayne</p>
+          </div>
+        </div>
+
         {/* <div className="h-10 w-10 bg-black rounded-full"></div> */}
       </div>
     </nav>
