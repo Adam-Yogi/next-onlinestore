@@ -9,13 +9,13 @@ export default function Home(props) {
       <Container>
         {booksData.map((book) => (
           <Thumbnail
-            key={book[0]}
-            bookId={book[0]}
-            imgUrl={book[5]}
-            title={book[1]}
-            price={book[3]}
-            dateAdded={book[6]}
-            available={book[4]}
+            key={book.productID}
+            bookId={book.productID}
+            imgUrl={book.image_product}
+            title={book.nama}
+            price={book.harga}
+            dateAdded={book.tgl_input}
+            available={book.jumlah}
           />
         ))}
       </Container>
@@ -27,6 +27,6 @@ export async function getServerSideProps(context) {
   const request = await fetch('http://localhost:5000/books').then((res) =>
     res.json()
   );
-  console.log(request);
+
   return { props: { request } };
 }

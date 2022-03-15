@@ -12,11 +12,11 @@ const daftar = () => {
         </h2>
         <form className="row-span-3 md:w-8/12 grid grid-rows-3 gap-3 md:gap-5">
           <div className="flex justify-center flex-col">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="name">name</label>
             <input
               type="text"
-              placeholder="Enter Username"
-              name="username"
+              placeholder="Enter Name"
+              name="name"
               className="border-black w-100 border-2 rounded-xl p-1"
               required
             />

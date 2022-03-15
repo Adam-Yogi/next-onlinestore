@@ -1,5 +1,6 @@
 import { ArrowRightIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Modals = ({
@@ -34,6 +35,7 @@ const Modals = ({
             Date Added : {dateAdded}
           </p>
 
+          {/* <Link href={`/details?id=${bookId}`}> */}
           <button
             onClick={async () => {
               await router.replace(`/details?id=${bookId}`);
@@ -43,6 +45,7 @@ const Modals = ({
           >
             Details <ArrowRightIcon className="w-8 h-8" />
           </button>
+          {/* </Link> */}
         </div>
       </div>
     </div>

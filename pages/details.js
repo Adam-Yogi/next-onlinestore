@@ -13,7 +13,7 @@ const Details = (props) => {
       <div className="p-4 md:grid md:grid-cols-2 row-span-2 md:gap-2 lg:gap-4 items-center">
         <div className="rounded-lg shadow-xl overflow-hidden ">
           <Image
-            src={bookDetails[5]}
+            src={bookDetails.image_product}
             width={800}
             height={800}
             objectFit="fill"
@@ -24,21 +24,21 @@ const Details = (props) => {
         <div className="self-stretch space-y-3 md:space-y-0 md:grid md:items-center p-2 text-white rounded-lg md:border-2 md:border-purple-200 md:border-opacity-10">
           <div>
             <h1 className="text-3xl md:text-6xl font-bold text-yellow-200">
-              {bookDetails[1]}
+              {bookDetails.nama}
             </h1>
             <p className="text-sm text-gray-300">
-              Date Added : {bookDetails[6]}
+              Date Added : {bookDetails.tgl_input}
             </p>
           </div>
           <div className="">
             <p className="text-sm md:text-md overflow-scroll max-h-60 scrollbar-hide lg:text-xl">
-              {bookDetails[2]}
+              {bookDetails.deskripsi}
             </p>
           </div>
           <div>
             <p>Harga: </p>
             <p className="font-semibold text-2xl md:text-3xl">
-              Rp{bookDetails[3]}
+              Rp{bookDetails.harga}
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4 items-center justify-center">
@@ -53,11 +53,11 @@ const Details = (props) => {
         <div className="flex scrollbar-hide gap-3 p-3 col-span-2 overflow-y-scroll">
           {otherBooksData.map((book) => (
             <MiniThumbnail
-              key={book[0]}
-              bookId={book[0]}
-              imgUrl={book[5]}
-              title={book[1]}
-              price={book[3]}
+              key={book.productID}
+              bookId={book.productID}
+              imgUrl={book.image_product}
+              title={book.nama}
+              price={book.harga}
             />
           ))}
         </div>

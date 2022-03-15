@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import injectContext from '../store/AppContext';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -8,4 +9,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default injectContext(MyApp);
