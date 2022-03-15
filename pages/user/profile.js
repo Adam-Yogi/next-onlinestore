@@ -49,16 +49,14 @@ const profile = () => {
                 className="md:place-self-center
            flex flex-col p-4 md:p-2"
               >
-                <p className="font-bold">John Wayne</p>
-                <p className="text-gray-200">Jakarta</p>
-                <p>Email : johnwayne@gmail.com</p>
-                <p>Phone : 082442352527592</p>
+                <p className="font-bold">
+                  {store.user.first_name + ' ' + store.user.last_name}
+                </p>
+                <p>Email : {store.user.email}</p>
+                <p>Phone : {store.user.no_telp}</p>
               </div>
             </div>
-            <form
-              method="put"
-              className="flex flex-col md:justify-around space-y-4"
-            >
+            <div className="flex flex-col md:justify-around space-y-4 md:pr-4">
               <div className="flex justify-center flex-col">
                 <label htmlFor="name">Name</label>
                 <input
@@ -92,7 +90,7 @@ const profile = () => {
               >
                 Update
               </button>
-            </form>
+            </div>
           </div>
         </>
       ) : (

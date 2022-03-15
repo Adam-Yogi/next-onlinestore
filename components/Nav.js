@@ -5,10 +5,12 @@ import userAvatar from '../public/images/user.webp';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
 import { Context } from '../store/AppContext';
 import { useContext } from 'react';
+import { useEffect } from 'react/cjs/react.production.min';
 
 const Nav = ({ user }) => {
   const router = useRouter();
   const { store, actions } = useContext(Context);
+
   return (
     <nav>
       <div className="grid grid-rows-2 grid-cols-2 lg:flex lg:gap-0 bg-[#323969] text-white lg:justify-between items-center lg:items-center px-3 py-4 sm:px-10 ">
@@ -40,7 +42,7 @@ const Nav = ({ user }) => {
                     height={50}
                   />
                 </div>
-                <p className="text-sm"> John Wayne</p>
+                <p className="text-sm">{store.user.first_name}</p>
               </div>
             </>
           ) : (
