@@ -42,6 +42,27 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error('there was an error logging in');
         }
       },
+
+      fetchUser: async () => {
+        const store = getStore();
+        const opts = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+          },
+        };
+        try {
+          const res = await fetch('http://localhost:5000/getuser', opts);
+          if (res.status !== 200) {
+            return false;
+          }
+          const data = await res.json();
+          setStore({ user: data[0] });
+          return true;
+        } catch (error) {
+          console.error('there was an error fetching user');
+        }
+      },
       register: async (firstName, lastName, phone, email, password) => {
         const opts = {
           method: 'POST',
@@ -69,25 +90,34 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error('there was an error registering');
         }
       },
-      fetchUser: async () => {
+      updateProfile: async (firstName, lastName, phone, newPassword) => {
         const store = getStore();
         const opts = {
-          method: 'GET',
+          method: 'PATCH',
           headers: {
             Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
           },
+          body: JSON.stringify({
+            first_name:
+              firstName.length > 0 ? firstName : store.user.first_name,
+            last_name: lastName.length > 0 ? lastName : store.user.last_name,
+            no_telp: phone.length > 0 ? phone : store.user.phone,
+            password:
+              newPassword.length > 0 ? newPassword : store.user.password,
+          }),
         };
         try {
-          const res = await fetch('http://localhost:5000/getuser', opts);
+          const res = await fetch('http://localhost:5000/updateuser', opts);
           if (res.status !== 200) {
+            alert('there was an error updating');
             return false;
           }
           const data = await res.json();
-          setStore({ user: data[0] });
-
+          alert(data.msg);
           return true;
         } catch (error) {
-          console.error('there was an error fetching user');
+          console.error('there was an error updating');
         }
       },
     },

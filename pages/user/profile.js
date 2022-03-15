@@ -2,14 +2,22 @@ import Image from 'next/image';
 import LayoutNav from '../../components/LayoutNav';
 import userAvatar from '../../public/images/user.webp';
 import { Context } from '../../store/AppContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ArrowLeftIcon } from '@heroicons/react/solid';
 
 const profile = () => {
   const router = useRouter();
   const { store, actions } = useContext(Context);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [phone, setPhone] = useState('');
 
+  const handleUpdate = () => {
+    actions.updateProfile(firstName, lastName, phone, newPassword);
+    router.reload();
+  };
   return (
     <LayoutNav>
       {store.token && store.token != '' && store.token != undefined ? (
@@ -56,17 +64,48 @@ const profile = () => {
                 <p>Phone : {store.user.no_telp}</p>
               </div>
             </div>
-            <div className="flex flex-col md:justify-around space-y-4 md:pr-4">
+            <div className="flex flex-col md:justify-around space-y-4 md:pr-4 ">
               <div className="flex justify-center flex-col">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="first_name">First Name</label>
                 <input
                   type="text"
-                  placeholder="Name"
-                  name="name"
-                  className="border-black w-100 border-2 rounded-xl p-3"
+                  placeholder="New First Name"
+                  name="first_name"
+                  className="border-black text-black w-100 border-2 rounded-xl p-3"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
                 />
               </div>
               <div className="flex justify-center flex-col">
+                <label htmlFor="name">Last Name</label>
+                <input
+                  type="text"
+                  placeholder="New Last Name"
+                  name="last_name"
+                  className="border-black text-black w-100 border-2 rounded-xl p-3"
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex justify-center flex-col">
+                <label htmlFor="name">Phone</label>
+                <input
+                  type="tel"
+                  maxLength={12}
+                  placeholder="New Phone Number"
+                  name="no_telp"
+                  className="border-black text-black w-100 border-2 rounded-xl p-3"
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
+                />
+              </div>
+              {/* <div className="flex justify-center flex-col">
                 <label htmlFor="alamat">Alamat</label>
                 <input
                   type="text"
@@ -74,19 +113,34 @@ const profile = () => {
                   name="alamat"
                   className="border-black w-100 border-2 rounded-xl p-3"
                 />
-              </div>
+              </div> */}
               <div className="flex justify-center flex-col">
-                <label htmlFor="umur">Umur</label>
+                <label htmlFor="umur">New Password</label>
                 <input
                   type="text"
-                  placeholder="Umur"
-                  name="umur"
-                  className="border-black w-100 border-2 rounded-xl p-3"
+                  placeholder="New Password"
+                  name="password"
+                  className="border-black text-black w-100 border-2 rounded-xl p-3"
+                  value={newPassword}
+                  onChange={(e) => {
+                    setNewPassword(e.target.value);
+                  }}
                 />
               </div>
               <button
+                disabled={
+                  firstName.length > 0 ||
+                  lastName.length > 0 ||
+                  phone.length > 0 ||
+                  newPassword.length > 0
+                    ? false
+                    : true
+                }
                 tyoe="submit"
-                className="bg-green-400 rounded-xl p-3 text-white font-bold"
+                className="bg-green-400 rounded-xl p-3 text-white font-bold disabled:bg-green-800 disabled:opacity-25"
+                onClick={() => {
+                  handleUpdate();
+                }}
               >
                 Update
               </button>

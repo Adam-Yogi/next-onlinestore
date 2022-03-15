@@ -17,9 +17,10 @@ const login = () => {
     // });
   };
 
-  if (store.token && store.token != '' && store.token != undefined)
+  if (store.token && store.token != '' && store.token != undefined) {
+    actions.fetchUser();
     router.push('/');
-
+  }
   return (
     <div className="h-screen w-screen bg-gradient-to-b from-pink-200 to-pink-500 flex flex-col items-center justify-center">
       <h1 className="text-5xl font-extrabold text-white font-roboto pb-2">

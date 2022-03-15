@@ -5,7 +5,7 @@ import userAvatar from '../public/images/user.webp';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
 import { Context } from '../store/AppContext';
 import { useContext } from 'react';
-import { useEffect } from 'react/cjs/react.production.min';
+import { useEffect } from 'react';
 
 const Nav = ({ user }) => {
   const router = useRouter();
