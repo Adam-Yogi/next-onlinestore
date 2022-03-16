@@ -8,6 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       // Use getActions to call a function within a fuction
       syncTokenFromSessionStore: () => {
         const user_token = sessionStorage.getItem('user_token');
+
         if (user_token && user_token != '' && user_token != undefined)
           setStore({ token: user_token });
       },
@@ -29,7 +30,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:5000/login', opts);
+          const res = await fetch('http://localhost:8000/login', opts);
           if (res.status !== 200) {
             alert('wrong password or username');
             return false;
@@ -52,12 +53,13 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         try {
-          const res = await fetch('http://localhost:5000/getuser', opts);
+          const res = await fetch('http://localhost:8000/getuser', opts);
           if (res.status !== 200) {
             return false;
           }
           const data = await res.json();
           setStore({ user: data[0] });
+
           return true;
         } catch (error) {
           console.error('there was an error fetching user');
@@ -78,7 +80,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:5000/register', opts);
+          const res = await fetch('http://localhost:8000/register', opts);
           if (res.status !== 200) {
             alert('user already exist');
             return false;
@@ -108,7 +110,36 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:5000/updateuser', opts);
+          const res = await fetch('http://localhost:8000/updateuser', opts);
+          if (res.status !== 200) {
+            alert('there was an error updating');
+            return false;
+          }
+          const data = await res.json();
+          alert(data.msg);
+          return true;
+        } catch (error) {
+          console.error('there was an error updating');
+        }
+      },
+
+      updateProfilePic: async (profpicUrl) => {
+        const store = getStore();
+        const opts = {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            profile_pic: profpicUrl,
+          }),
+        };
+        try {
+          const res = await fetch(
+            'http://localhost:8000/updateprofilepic',
+            opts
+          );
           if (res.status !== 200) {
             alert('there was an error updating');
             return false;

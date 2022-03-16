@@ -35,7 +35,11 @@ const Nav = ({ user }) => {
               >
                 <div className=" w-8 h-8 rounded-full overflow-hidden">
                   <Image
-                    src={userAvatar}
+                    src={
+                      store.user.profile_pic
+                        ? store.user.profile_pic
+                        : userAvatar
+                    }
                     objectFit="cover"
                     objectPosition="center"
                     width={50}

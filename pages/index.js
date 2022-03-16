@@ -24,7 +24,7 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  const request = await fetch('http://localhost:5000/books').then((res) =>
+  const request = await fetch('http://localhost:8000/books').then((res) =>
     res.json()
   );
 
