@@ -68,7 +68,7 @@ const profile = () => {
           </div>
           <div className="text-white p-3 py-5 md:grid md:grid-cols-2 md:gap-2">
             <div className="grid space-y-5 md:space-y-0 md:grid-rows-5 md:grid-cols-1 items-center justify-center">
-              <div className="place-self-center md:row-span-3 w-11/12 md:w-6/12 rounded-full overflow-hidden">
+              <div className="place-self-center md:row-span-3 w-10/12 md:w-8/12 rounded-full border-4 border-indigo-300 overflow-hidden">
                 <Image
                   src={
                     store.user.profile_pic ? store.user.profile_pic : userAvatar
@@ -78,7 +78,7 @@ const profile = () => {
                   width={200}
                 />
               </div>
-              <div className="flex justify-between items-center border-white border-opacity-20 border-2 p-2 rounded-lg md:place-self-center">
+              <div className="place-self-center flex justify-between items-center w-9/12 border-white border-opacity-20 border-2 p-2 rounded-lg md:place-self-center">
                 <input
                   type="file"
                   onChange={(event) => {
@@ -86,7 +86,10 @@ const profile = () => {
                   }}
                 />
                 <button
-                  className="bg-blue-200 rounded-md p-2 text-black"
+                  className={`${
+                    selectedImage != '' &&
+                    'bg-blue-400 font-semibold text-white hover:border-2 hover:border-indigo-300'
+                  } bg-blue-200 rounded-md p-2 text-black`}
                   onClick={uploadImage}
                 >
                   Upload
@@ -103,7 +106,7 @@ const profile = () => {
                 <p>Phone : {store.user.no_telp}</p>
               </div>
             </div>
-            <div className="flex flex-col md:justify-around space-y-4 md:pr-4 ">
+            <div className="flex flex-col px-3 md:justify-around space-y-4 md:pr-4 ">
               <div className="flex justify-center flex-col">
                 <label htmlFor="first_name">First Name</label>
                 <input

@@ -5,5 +5,9 @@
 @layer base {
   body {
     @apply bg-[#252849];
+    @apply bg-gradient-to-b;
+
+    @apply from-indigo-600;
+    @apply to-[#191c3a];
   }
 }

@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       token: null,
       user: {},
+      books: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -30,7 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:8000/login', opts);
+          const res = await fetch('http://localhost:5000/login', opts);
           if (res.status !== 200) {
             alert('wrong password or username');
             return false;
@@ -53,7 +54,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         try {
-          const res = await fetch('http://localhost:8000/getuser', opts);
+          const res = await fetch('http://localhost:5000/getuser', opts);
           if (res.status !== 200) {
             return false;
           }
@@ -80,7 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:8000/register', opts);
+          const res = await fetch('http://localhost:5000/register', opts);
           if (res.status !== 200) {
             alert('user already exist');
             return false;
@@ -110,7 +111,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:8000/updateuser', opts);
+          const res = await fetch('http://localhost:5000/updateuser', opts);
           if (res.status !== 200) {
             alert('there was an error updating');
             return false;
@@ -137,7 +138,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
         try {
           const res = await fetch(
-            'http://localhost:8000/updateprofilepic',
+            'http://localhost:5000/updateprofilepic',
             opts
           );
           if (res.status !== 200) {
@@ -149,6 +150,19 @@ const getState = ({ getStore, getActions, setStore }) => {
           return true;
         } catch (error) {
           console.error('there was an error updating');
+        }
+      },
+      fetchBooks: async (profpicUrl) => {
+        const store = getStore();
+        const opts = {
+          method: 'GET',
+        };
+        try {
+          const res = await fetch('http://localhost:5000/books', opts);
+          const data = await res.json();
+          setStore({ books: data });
+        } catch (error) {
+          console.error('there was an error fetching data');
         }
       },
     },

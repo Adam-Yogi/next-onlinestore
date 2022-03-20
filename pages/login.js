@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { useHistory } from 'react-router-dom';
 
 import React, { useState, useContext } from 'react';
 import { Context } from '../store/AppContext';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import logoColor from '../public/images/logocolor.png';
 
 const login = () => {
   const { store, actions } = useContext(Context);
@@ -22,25 +23,27 @@ const login = () => {
     router.push('/');
   }
   return (
-    <div className="h-screen w-screen bg-gradient-to-b from-pink-200 to-pink-500 flex flex-col items-center justify-center">
-      <h1 className="text-5xl font-extrabold text-white font-roboto pb-2">
-        Zona Buku
-      </h1>
+    <div className="h-screen w-screen bg-gradient-to-b from-blue-200 gap-4 to-bg-[#252849] flex flex-col md:grid md:grid-cols-2 items-center justify-center">
+      <div className="flex justify-center items-center w-full">
+        <Image src={logoColor} width={250} height={150} />
+      </div>
       {store.token && store.token !== '' && store.token !== undefined ? (
         <Link href="/">Lanjut</Link>
       ) : (
-        <div className='border-indigo-400 border-2 rounded-xl w-6/12 md:py-6 md:w-4/12 flex flex-col items-center gap-5 px-3 py-5 bg-white shadow-2xl"'>
-          <h2 className="text-indigo-800 row-span-1 font-bold text-2xl md:text-4xl">
+        <div className='border-2 rounded-xl w-6/12 md:py-6 md:w-9/12 flex flex-col items-center gap-5 px-3 py-5 bg-white shadow-2xl"'>
+          <h2 className="text-indigo-900 row-span-1 font-bold text-2xl md:text-4xl">
             Login
           </h2>
           <div className="row-span-3 md:w-8/12 grid grid-rows-3 gap-3 md:gap-5">
             <div className="flex justify-center flex-col">
-              <label htmlFor="email">E-Mail</label>
+              <label htmlFor="email" className="font-semibold">
+                E-Mail
+              </label>
               <input
                 type="email"
                 placeholder="Enter E-mail"
                 name="email"
-                className="border-black w-100 border-2 rounded-xl p-1"
+                className="border-black w-100 border-2 rounded-xl p-2"
                 required
                 value={email}
                 onChange={(e) => {
@@ -49,12 +52,14 @@ const login = () => {
               />
             </div>
             <div className="flex justify-center flex-col">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password" className="font-semibold">
+                Password
+              </label>
               <input
                 type="password"
                 placeholder="Enter Password"
                 name="password"
-                className="border-black w-100 border-2 rounded-xl p-1"
+                className="border-black w-100 border-2 rounded-xl p-2"
                 required
                 value={password}
                 onChange={(e) => {
@@ -68,11 +73,11 @@ const login = () => {
               onClick={() => {
                 handleSubmit();
               }}
-              className="bg-indigo-800 rounded-xl text-white font-bold"
+              className="bg-indigo-500 rounded-xl text-white font-bold"
             >
               Masuk
             </button>
-            <Link className="" href="/daftar">
+            <Link className="font-semibold" href="/daftar">
               <button>Daftar</button>
             </Link>
           </div>

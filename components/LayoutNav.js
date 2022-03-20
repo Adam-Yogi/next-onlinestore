@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 const LayoutNav = (props) => {
   return (
-    <div className="bg-[#252849]">
+    <div className="min-h-screen">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
