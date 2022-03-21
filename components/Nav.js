@@ -2,38 +2,77 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import userAvatar from '../public/images/user.webp';
-import { ShoppingCartIcon } from '@heroicons/react/outline';
+import {
+  ShoppingCartIcon,
+  MenuIcon,
+  XCircleIcon,
+} from '@heroicons/react/outline';
 import { Context } from '../store/AppContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import logo from '../public/images/logob.svg';
 
 const Nav = ({ user }) => {
   const router = useRouter();
   const { store, actions } = useContext(Context);
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
     <nav className=" shadow-2xl">
-      <div className="grid grid-rows-2 grid-cols-2 lg:flex lg:gap-0 bg-[#1d2241] text-white lg:justify-between items-center lg:items-center px-3 pt-3 lg:py-3 sm:px-10 ">
-        <div className="flex items-center min-h-full md:scale-120">
+      <div className="grid relative grid-rows-1 grid-cols-3 lg:flex lg:gap-0 bg-[#1d2241] text-white lg:justify-between items-center lg:items-center px-3 py-2 lg:py-3 sm:px-10 ">
+        <div
+          className=" lg:hidden cursor-pointer"
+          onClick={() => {
+            setShowMenu(!showMenu);
+          }}
+        >
+          {showMenu ? (
+            <XCircleIcon className="h-8 w-8  col-start-1" />
+          ) : (
+            <MenuIcon className="h-8 w-8 col-start-1" />
+          )}
+        </div>
+
+        <div className="flex items-center justify-center min-h-full md:scale-120">
           <Link href="/">
             <Image src={logo} width={135} height={60} />
           </Link>
         </div>
 
-        <div className="font-thin row-start-2 col-span-2 flex space-x-12 sm:space-x-32 items-center grow justify-center tracking-widest ">
-          <Link href="/">
-            <p className="border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white">
+        <div
+          className={`font-thin top-0 absolute ${
+            showMenu ? 'left-0' : '-left-[100%]'
+          } transition-all ease-in-out duration-200 lg:static z-10 bg-[#1d2241] w-screen lg:w-100 p-3 row-start-2 col-span-3 flex space-x-12 sm:space-x-32 items-center grow justify-center tracking-widest`}
+        >
+          <Link
+            onClick={() => {
+              setShowMenu(false);
+            }}
+            href="/"
+          >
+            <p className="cursor-pointer border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white">
               HOME
             </p>
           </Link>
-          <p className="border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white">
+          <p
+            onClick={() => {
+              setShowMenu(false);
+            }}
+            className="cursor-pointer border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white"
+          >
             ABOUT
           </p>
-          <p className="border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white">
-            PRODUCTS
-          </p>
+          <Link
+            onClick={() => {
+              setShowMenu(false);
+            }}
+            href="/myproducts"
+          >
+            <p className="cursor-pointer border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white">
+              PRODUCTS
+            </p>
+          </Link>
         </div>
-        <div className="place-self-end h-12 flex items-center space-x-5">
+        <div className="place-self-end h-12 flex  items-center space-x-5">
           {store.token && store.token != '' && store.token != undefined ? (
             <>
               <ShoppingCartIcon className="hover:animate-bounce h-8 w-8" />
@@ -61,8 +100,8 @@ const Nav = ({ user }) => {
             </>
           ) : (
             <Link href="/login">
-              <button className="bg-indigo-300 rounded-xl shadow-lg p-2 font-semibold text-lg md:text-xl text-white">
-                Log In
+              <button className="bg-indigo-300 hover:bg-indigo-400 rounded-xl shadow-lg p-2 font-semibold text-lg md:text-xl text-white">
+                Login
               </button>
             </Link>
           )}

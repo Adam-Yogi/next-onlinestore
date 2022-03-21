@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState, useContext } from 'react';
 import { Context } from '../store/AppContext';
 import logoColor from '../public/images/logocolor.png';
@@ -11,9 +12,11 @@ const daftar = () => {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const { store, actions } = useContext(Context);
+  const router = useRouter();
 
-  const handleSubmit = () => {
-    actions.register(firstName, lastName, phone, email, password);
+  const handleSubmit = async () => {
+    await actions.register(firstName, lastName, phone, email, password);
+    router.push('/login');
   };
   return (
     <div className="h-screen w-screen bg-gradient-to-b from-blue-200 gap-4 to-bg-[#252849] flex flex-col md:grid md:grid-cols-2 items-center justify-center">

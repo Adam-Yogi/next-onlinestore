@@ -1,17 +1,27 @@
 import bookCover from '../public/images/book.jpeg';
 import Image from 'next/image';
 import { useState } from 'react';
-import Modals from './Modals';
-import { ArrowLeftIcon } from '@heroicons/react/solid';
 
-const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
+import {
+  ArrowLeftIcon,
+  TrashIcon,
+  PencilAltIcon,
+} from '@heroicons/react/solid';
+import UpdateModals from './UpdateModals';
+
+const AdminThumbnail = ({
+  bookId,
+  imgUrl,
+  title,
+  price,
+  dateAdded,
+  available,
+  description,
+}) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
-      <div
-        onClick={() => setShowModal(true)}
-        className="border group hover:border-opacity-100 cursor-pointer border-white border-opacity-25 rounded-lg text-white p-3 transition-all ease-in-out duration-300"
-      >
+      <div className="border group hover:border-opacity-100 border-white border-opacity-25 rounded-lg text-white p-3 transition-all ease-in-out duration-300">
         <div className="overflow-hidden rounded-md">
           <Image
             src={imgUrl}
@@ -41,7 +51,20 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
             Added : {dateAdded}
           </p>
         </div>
+        <div className="flex items-center pt-2 justify-end gap-2">
+          <PencilAltIcon
+            onClick={() => setShowModal(true)}
+            className="w-7 h-7 cursor-pointer bg-blue-500 rounded-md shadow p-1 "
+          />
+          <TrashIcon
+            onClick={() => {
+              console.log(confirm('are you sure?'));
+            }}
+            className="w-7 h-7 cursor-pointer bg-red-500 rounded-md shadow p-1 "
+          />
+        </div>
       </div>
+
       {showModal && (
         <button
           className="fixed bg-gray-900 text-gray-300 flex items-center justify-center p-2 bg-opacity-50 left-8 z-30 top-8 rounded-md group border-2 border-gray-400 hover:border-white hover:text-indigo-300"
@@ -51,7 +74,7 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
         </button>
       )}
 
-      <Modals
+      <UpdateModals
         isShown={showModal}
         title={title}
         imgUrl={imgUrl}
@@ -59,9 +82,10 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
         available={available}
         price={price}
         bookId={bookId}
-      ></Modals>
+        description={description}
+      />
     </>
   );
 };
 
-export default Thumbnail;
+export default AdminThumbnail;

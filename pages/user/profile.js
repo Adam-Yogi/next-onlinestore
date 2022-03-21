@@ -95,15 +95,24 @@ const profile = () => {
                   Upload
                 </button>
               </div>
-              <div
-                className="md:place-self-center
-           flex flex-col p-4 md:p-2"
-              >
-                <p className="font-bold">
+              <div className=" flex flex-col items-center md:place-self-center p-3">
+                <h3 className="font-bold text-xl uppercase">
                   {store.user.first_name + ' ' + store.user.last_name}
-                </p>
-                <p>Email : {store.user.email}</p>
-                <p>Phone : {store.user.no_telp}</p>
+                </h3>
+                <table>
+                  <tr>
+                    <td>User ID</td>
+                    <td>: {store.user.userID}</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>: {store.user.email}</td>
+                  </tr>
+                  <tr>
+                    <td>Phone</td>
+                    <td>: {store.user.no_telp}</td>
+                  </tr>
+                </table>
               </div>
             </div>
             <div className="flex flex-col px-3 md:justify-around space-y-4 md:pr-4 ">
@@ -178,10 +187,12 @@ const profile = () => {
                     ? false
                     : true
                 }
-                tyoe="submit"
+                type="submit"
                 className="bg-green-400 rounded-xl p-3 text-white font-bold disabled:bg-green-800 disabled:opacity-25"
                 onClick={() => {
-                  handleUpdate();
+                  if (confirm('Are you sure want to update')) {
+                    handleUpdate();
+                  }
                 }}
               >
                 Update

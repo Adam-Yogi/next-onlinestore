@@ -105,7 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             first_name:
               firstName.length > 0 ? firstName : store.user.first_name,
             last_name: lastName.length > 0 ? lastName : store.user.last_name,
-            no_telp: phone.length > 0 ? phone : store.user.phone,
+            no_telp: phone.length > 0 ? phone : store.user.no_telp,
             password:
               newPassword.length > 0 ? newPassword : store.user.password,
           }),

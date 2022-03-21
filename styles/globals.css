@@ -10,4 +10,15 @@
     @apply from-indigo-600;
     @apply to-[#191c3a];
   }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-roboto;
+  }
+  p {
+    @apply font-nunito;
+  }
 }

@@ -70,8 +70,8 @@ export default Details;
 
 export async function getServerSideProps(context) {
   const [requestDetail, requestOther] = await Promise.all([
-    fetch(`http://localhost:8000/details?id=${context.query.id}`),
-    fetch(`http://localhost:8000/books`),
+    fetch(`http://localhost:5000/details?id=${context.query.id}`),
+    fetch(`http://localhost:5000/books`),
   ]);
   const [resDetail, resOther] = await Promise.all([
     requestDetail.json(),
