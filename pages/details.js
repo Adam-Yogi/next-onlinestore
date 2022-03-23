@@ -1,13 +1,24 @@
 import { useRouter } from 'next/router';
-
 import Image from 'next/image';
 import MiniThumbnail from '../components/MiniThumbnail';
 import LayoutNav from '../components/LayoutNav';
+import { useState, useEffect, useContext } from 'react';
 
 const Details = (props) => {
+  // const [bookDetails, setBookDetails] = useState({});
+  // const [otherBooksData, setOtherBooksData] = useState([]);
+  const router = useRouter();
   const otherBooksData = props.resOther;
   const bookDetails = props.resDetail[0];
 
+  // useEffect(async () => {
+  //   const res = await fetch(
+  //     `http://localhost:5000/details?id=${router.query.id}`
+  //   );
+  //   const [data] = await res.json();
+  //   setBookDetails(data);
+  //   console.log(data.image_product);
+  // }, []);
   return (
     <LayoutNav user>
       <div className="p-4 md:grid md:grid-cols-2 row-span-2 md:gap-2 lg:gap-4 items-center">
@@ -26,6 +37,9 @@ const Details = (props) => {
             <h1 className="text-3xl md:text-6xl font-bold text-yellow-200">
               {bookDetails.nama}
             </h1>
+            <p className="text-sm text-gray-300">
+              Seller : {bookDetails.owner}
+            </p>
             <p className="text-sm text-gray-300">
               Date Added : {bookDetails.tgl_input}
             </p>
@@ -70,8 +84,8 @@ export default Details;
 
 export async function getServerSideProps(context) {
   const [requestDetail, requestOther] = await Promise.all([
-    fetch(`http://localhost:5000/details?id=${context.query.id}`),
-    fetch(`http://localhost:5000/books`),
+    fetch(`http://127.0.0.1:5000/details?id=${context.query.id}`),
+    fetch(`http://127.0.0.1:5000/books`),
   ]);
   const [resDetail, resOther] = await Promise.all([
     requestDetail.json(),

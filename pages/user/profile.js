@@ -5,7 +5,6 @@ import { Context } from '../../store/AppContext';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ArrowLeftIcon } from '@heroicons/react/solid';
-import { version } from 'os';
 
 const profile = () => {
   const router = useRouter();
@@ -45,7 +44,6 @@ const profile = () => {
     <LayoutNav>
       {store.token && store.token != '' && store.token != undefined ? (
         <>
-          {' '}
           <div className="flex p-4 justify-between items-center">
             <button
               onClick={() => {

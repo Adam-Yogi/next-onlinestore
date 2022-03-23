@@ -1,13 +1,15 @@
 import bookCover from '../public/images/book.jpeg';
 import Image from 'next/image';
 import { useState } from 'react';
-
+import { useContext } from 'react';
 import {
   ArrowLeftIcon,
   TrashIcon,
   PencilAltIcon,
 } from '@heroicons/react/solid';
 import UpdateModals from './UpdateModals';
+import { Context } from '../store/AppContext';
+import { useRouter } from 'next/router';
 
 const AdminThumbnail = ({
   bookId,
@@ -18,7 +20,14 @@ const AdminThumbnail = ({
   available,
   description,
 }) => {
+  const { store, actions } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
+
+  const handleDelete = async (id) => {
+    await actions.deleteBook(id);
+    router.reload();
+  };
   return (
     <>
       <div className="border group hover:border-opacity-100 border-white border-opacity-25 rounded-lg text-white p-3 transition-all ease-in-out duration-300">
@@ -58,7 +67,9 @@ const AdminThumbnail = ({
           />
           <TrashIcon
             onClick={() => {
-              console.log(confirm('are you sure?'));
+              if (confirm('are you sure?')) {
+                handleDelete(bookId);
+              }
             }}
             className="w-7 h-7 cursor-pointer bg-red-500 rounded-md shadow p-1 "
           />

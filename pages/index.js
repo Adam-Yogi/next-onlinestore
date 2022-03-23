@@ -5,13 +5,15 @@ import { useEffect, useContext, useState } from 'react';
 import { Context } from '../store/AppContext';
 
 export default function Home(props) {
-  const { store, actions } = useContext(Context);
-  const [booksData, setBooksData] = useState([]);
-  useEffect(() => {
-    actions.fetchBooks().then(() => {
-      setBooksData(store.books);
-    });
-  }, []);
+  // const { store, actions } = useContext(Context);
+  // const [booksData, setBooksData] = useState([]);
+  // useEffect(() => {
+  //   actions.fetchBooks().then(() => {
+  //     setBooksData(store.books);
+  //   });
+  // }, []);
+
+  const booksData = props.request;
 
   return (
     <LayoutNav user>
@@ -40,10 +42,10 @@ export default function Home(props) {
   );
 }
 
-// export async function getInitialProps(context) {
-//   const request = await fetch('http://localhost:5000/books').then((res) =>
-//     res.json()
-//   );
+export async function getServerSideProps(context) {
+  const request = await fetch('http://127.0.0.1:5000/books').then((res) =>
+    res.json()
+  );
 
-//   return { props: { request } };
-// }
+  return { props: { request } };
+}

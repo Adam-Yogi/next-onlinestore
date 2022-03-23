@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       token: null,
       user: {},
       books: [],
+      userBooks: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -152,7 +153,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error('there was an error updating');
         }
       },
-      fetchBooks: async (profpicUrl) => {
+      fetchBooks: async () => {
         const store = getStore();
         const opts = {
           method: 'GET',
@@ -163,6 +164,117 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ books: data });
         } catch (error) {
           console.error('there was an error fetching data');
+        }
+      },
+      fetchUserBooks: async () => {
+        const store = getStore();
+        const opts = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+        };
+        try {
+          const res = await fetch('http://localhost:5000/userproduct', opts);
+          const data = await res.json();
+          setStore({ userBooks: data });
+        } catch (error) {
+          console.error('there was an error fetching');
+        }
+      },
+      deleteBook: async (bookid) => {
+        const store = getStore();
+        const opts = {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: bookid,
+          }),
+        };
+        try {
+          const res = await fetch(`http://localhost:5000/deleteproduct`, opts);
+          if (res.status !== 200) {
+            console.log(res.status);
+            alert('there was an error updating');
+            return false;
+          }
+          const data = await res.json();
+          alert(data.msg);
+          return true;
+        } catch (error) {
+          console.error('there was an error deleting');
+        }
+      },
+
+      addBook: async (nama, harga, deskripsi, jumlah, image_product) => {
+        const store = getStore();
+        const opts = {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nama: nama,
+            harga: harga,
+            deskripsi: deskripsi,
+            jumlah: jumlah,
+            image_product: image_product,
+          }),
+        };
+        try {
+          const res = await fetch('http://localhost:5000/addproduct', opts);
+          if (res.status !== 200) {
+            alert('error adding new product');
+            return false;
+          }
+          const data = await res.json();
+          alert(data.msg);
+          return true;
+        } catch (error) {
+          console.error('there was an error registering');
+        }
+      },
+
+      updateProduct: async (
+        bookId,
+        nama,
+        harga,
+        deskripsi,
+        jumlah,
+        image_product
+      ) => {
+        const store = getStore();
+        const opts = {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: bookId,
+            nama: nama,
+            harga: harga,
+            deskripsi: deskripsi,
+            jumlah: jumlah,
+            image_product: image_product,
+          }),
+        };
+        try {
+          const res = await fetch(`http://localhost:5000/updateproduct`, opts);
+          if (res.status !== 200) {
+            alert('there was an error updating');
+            return false;
+          }
+          const data = await res.json();
+          alert(data.msg);
+          return true;
+        } catch (error) {
+          console.error('there was an error updating');
         }
       },
     },
