@@ -3,6 +3,8 @@ import Thumbnail from '../components/Thumbnail';
 import LayoutNav from '../components/LayoutNav';
 import { useEffect, useContext, useState } from 'react';
 import { Context } from '../store/AppContext';
+import Image from 'next/image';
+import hero from '../public/images/hero.jpg';
 
 export default function Home(props) {
   // const { store, actions } = useContext(Context);
@@ -12,11 +14,16 @@ export default function Home(props) {
   //     setBooksData(store.books);
   //   });
   // }, []);
-
+  const { store, actions } = useContext(Context);
   const booksData = props.request;
 
   return (
     <LayoutNav user>
+      <div className="items-center flex w-100 p-6 bg-cover shadow-2xl md:h-56 h-48 bg-hero-pattern bg-no-repeat m-3 md:mx-36 lg:mx-48 rounded-lg">
+        <h1 className="capitalize font-roboto font-bold text-white text-4xl md:text-6xl">
+          Welcome back {store.user.first_name}!
+        </h1>
+      </div>
       {booksData.length != 0 ? (
         <Container>
           {booksData.map((book) => (

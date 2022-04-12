@@ -38,7 +38,7 @@ const myproducts = () => {
       >
         <PlusIcon className="h-8 w-8" />
       </button>
-      <h1 className="text-white text-2xl font-bold text-center p-3">
+      <h1 className="text-white capitalize text-2xl font-bold text-center p-3">
         {store.user.first_name + ' ' + store.user.last_name + ' '}
         products
       </h1>

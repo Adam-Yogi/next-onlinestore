@@ -1,7 +1,14 @@
 import Link from 'next/link';
 import { TrashIcon } from '@heroicons/react/outline';
+import { useContext } from 'react';
+import { Context } from '../store/AppContext';
 
-const CartItem = ({ title, harga, jumlah }) => {
+const CartItem = ({ bookId, title, harga, jumlah }) => {
+  const { store, actions } = useContext(Context);
+  const handleDelete = () => {
+    actions.deleteCartItem(bookId, jumlah);
+  };
+
   return (
     <div className="grid items-center py-2 px-3 grid-cols-8 border-b-2 border-white border-opacity-90 rounded-r-xl">
       <Link href={'/details?id=4'}>
@@ -13,13 +20,17 @@ const CartItem = ({ title, harga, jumlah }) => {
           {title}
         </h2>
       </Link>
-      <p className="col-span-1  text-lg text-gray-200 place-self-end">
+      <p className="col-span-1  text-lg text-gray-200 md:place-self-end">
         {jumlah}
       </p>
-      <p className="text-xl text-gray-100 place-self-end col-span-2 font-nunito  font-semibold">
+      <p className="text-xl text-gray-100 md:place-self-end col-span-2 font-nunito  font-semibold">
         Rp{harga}
       </p>
-      <button className="col-span-1 place-self-center bg-white bg-opacity-70  backdrop-filter backdrop-blur-lg p-1 shadow-lg rounded-lg ">
+
+      <button
+        onClick={() => handleDelete()}
+        className="col-span-1 place-self-center bg-white bg-opacity-70  backdrop-filter backdrop-blur-lg p-1 shadow-lg rounded-lg "
+      >
         <TrashIcon className="h-6 w-6 text-red-500 " />
       </button>
     </div>

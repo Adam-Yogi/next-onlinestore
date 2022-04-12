@@ -57,6 +57,13 @@ const Details = (props) => {
               <p className="text-sm text-gray-300">
                 Date Added : {bookDetails.tgl_input}
               </p>
+              <p
+                className={`${
+                  bookDetails.jumlah == 0 ? 'text-red-500' : ''
+                } text-sm text-white `}
+              >
+                Stock : {bookDetails.jumlah > 0 ? bookDetails.jumlah : 'KOSONG'}
+              </p>
             </div>
             <div className="">
               <p className="text-sm md:text-md overflow-scroll max-h-60 scrollbar-hide lg:text-xl">
@@ -70,12 +77,16 @@ const Details = (props) => {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4 items-center justify-center">
-              <button className="font-bold border-2 border-purple-400 hover:border-purple-600 rounded-lg p-2 text-purple-300 hover:text-purple-500 md:text-lg">
+              <button
+                disabled={bookDetails.jumlah == 0}
+                className={`disabled:opacity-30 font-bold border-2 border-purple-600 hover:bg-purple-600 transition-all duration-150 ease-in-out rounded-lg p-2 text-purple-300 hover:text-purple-100 disabled:cursor-not-allowed md:text-lg`}
+              >
                 Beli Sekarang
               </button>
               <button
+                disabled={bookDetails.jumlah == 0}
                 onClick={() => handleAddToCart()}
-                className="border-2 border-purple-200 rounded-lg p-2 text-purple-200 hover:text-white md:text-lg"
+                className="disabled:opacity-30 border-2 border-purple-200 hover:bg-purple-200 transition-all ease-in-out duration-150 disabled:cursor-not-allowed rounded-lg p-2 text-purple-200 hover:text-purple-900 md:text-lg"
               >
                 Masukkan Keranjang
               </button>

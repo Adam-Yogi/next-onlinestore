@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       books: [],
       userBooks: [],
       userCart: {},
+      totalQuantity: 0,
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -324,7 +325,32 @@ const getState = ({ getStore, getActions, setStore }) => {
           const res = await fetch('http://localhost:5000/getCartItem', opts);
           const data = await res.json();
 
-          setStore({ userCart: data });
+          setStore({
+            userCart: data,
+            totalQuantity: data.totalQuantity ? data.totalQuantity : 0,
+          });
+        } catch (error) {
+          console.error('there was an error fetching cart data');
+        }
+      },
+      deleteCartItem: async (bookId, jumlah) => {
+        const store = getStore();
+        const opts = {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: bookId,
+            jumlah: jumlah,
+          }),
+        };
+        try {
+          const res = await fetch('http://localhost:5000/delCartItem', opts);
+          const data = await res.json();
+          alert(data.msg);
+          router.reload();
         } catch (error) {
           console.error('there was an error fetching cart data');
         }

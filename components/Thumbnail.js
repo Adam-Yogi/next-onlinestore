@@ -12,7 +12,7 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
         onClick={() => setShowModal(true)}
         className="border group hover:border-opacity-100 cursor-pointer border-white border-opacity-25 rounded-lg text-white p-3 transition-all ease-in-out duration-300"
       >
-        <div className="overflow-hidden backdrop-blur-xl bg-white bg-opacity-5 rounded-md">
+        <div className="overflow-hidden mb-2 backdrop-blur-xl bg-white bg-opacity-5 rounded-md">
           <Image
             src={imgUrl}
             width={800}
@@ -26,7 +26,7 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
           <h2
             className={`${
               title.length > 15 && 'truncate'
-            } transition-all ease-in-out duration-300 font-bold text-2xl md:text-3xl`}
+            } transition-all ease-in-out duration-300 font-bold group-hover:text-yellow-300 text-2xl`}
           >
             {title}
           </h2>

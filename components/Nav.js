@@ -18,7 +18,7 @@ const Nav = ({ user }) => {
 
   return (
     <nav className=" shadow-2xl">
-      <div className="grid relative grid-rows-1 grid-cols-3 lg:flex lg:gap-0 bg-[#1d2241] text-white lg:justify-between items-center lg:items-center px-3 py-2 lg:py-3 sm:px-10 ">
+      <div className="grid relative grid-rows-1 grid-cols-3 lg:flex lg:gap-0 bg-gradient-to-tl from-indigo-900 to-indigo-800 text-white lg:justify-between items-center lg:items-center px-3 py-2 lg:py-3 sm:px-10 ">
         <div
           className=" lg:hidden cursor-pointer"
           onClick={() => {
@@ -41,7 +41,7 @@ const Nav = ({ user }) => {
         <div
           className={`font-thin top-0 absolute ${
             showMenu ? 'left-0' : '-left-[100%]'
-          } transition-all ease-in-out duration-200 lg:static z-10 bg-[#1d2241] w-screen lg:w-100 p-3 row-start-2 col-span-3 flex space-x-12 sm:space-x-32 items-center grow justify-center tracking-widest`}
+          } transition-all ease-in-out duration-200 lg:static z-10 w-screen lg:w-100 p-3 row-start-2 col-span-3 flex space-x-12 sm:space-x-32 items-center grow justify-center tracking-widest`}
         >
           <Link
             onClick={() => {
@@ -83,7 +83,7 @@ const Nav = ({ user }) => {
                 <div class="relative flex hover:animate-bounce">
                   <ShoppingCartIcon className=" h-8 w-8 flex-1" />
                   <span class="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
-                    {store.userCart.totalQuantity}
+                    {store.totalQuantity}
                   </span>
                 </div>
               </Link>

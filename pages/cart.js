@@ -7,7 +7,7 @@ import CartItem from '../components/CartItem';
 
 const cart = () => {
   const { store, actions } = useContext(Context);
-  const [userCart, setUserCart] = useState([]);
+  const [userCart, setUserCart] = useState(store.userCart.data);
 
   useEffect(() => {
     actions.getCartItem().then(() => {
@@ -23,8 +23,19 @@ const cart = () => {
   return (
     <LayoutNav>
       <div className="p-4 md:grid md:grid-cols-3 md:items-start gap-3 md:gap-4 w-100">
-        <div className="flex flex-col gap-3 md:col-span-2">
-          {userCart != undefined && userCart != null ? (
+        <div
+          className={`flex ${
+            store.totalQuantity == 0 ? 'justify-center items-center' : ''
+          } flex-col gap-3 md:col-span-2`}
+        >
+          {store.totalQuantity == 0 ? (
+            <h1 className="text-white text-bold text-center text-3xl">
+              You don't have any product in your cart
+            </h1>
+          ) : (
+            ''
+          )}
+          {userCart && userCart != undefined && userCart != null ? (
             <>
               {userCart.map((cartItem) => {
                 return (
@@ -49,7 +60,7 @@ const cart = () => {
             </div>
           )}
         </div>
-        <div className="grid md:gap-3 md:bg-black bg-opacity-60 md:p-8 md:rounded-lg md:shadow-xl  w-100 my-2 gap-1">
+        <div className="grid md:gap-3 md:bg-gradient-to-b md:from-indigo-900 md:to-black bg-opacity-60 md:p-8 md:rounded-lg md:shadow-xl  w-100 my-2 gap-1">
           <h3 className="text-white text-lg">
             Subtotal{' '}
             {store.userCart.totalQuantity ? store.userCart.totalQuantity : '0'}{' '}
@@ -65,7 +76,7 @@ const cart = () => {
               ? store.userCart.totalHarga
               : '0'}
           </p>
-          <button className="bg-gradient-to-r mt-3 hover:bg-gradient-to-l from-purple-400 to-indigo-400 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
+          <button className="bg-gradient-to-r mt-3 hover:bg-gradient-to-l from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
             Checkout
           </button>
         </div>
