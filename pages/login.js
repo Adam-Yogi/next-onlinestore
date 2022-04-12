@@ -12,7 +12,7 @@ const login = () => {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     actions.login(email, password); //.then(() => {
     //   router.push('/');
     // });
@@ -22,6 +22,7 @@ const login = () => {
     actions.fetchUser();
     router.push('/');
   }
+
   return (
     <div className="h-screen w-screen bg-gradient-to-b from-blue-200 gap-4 to-bg-[#252849] flex flex-col md:grid md:grid-cols-2 items-center justify-center">
       <div className="flex justify-center items-center w-full">

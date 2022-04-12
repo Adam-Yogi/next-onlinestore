@@ -1,10 +1,14 @@
+import { useRouter } from 'next/router';
+
 const getState = ({ getStore, getActions, setStore }) => {
+  const router = useRouter();
   return {
     store: {
       token: null,
       user: {},
       books: [],
       userBooks: [],
+      userCart: {},
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -204,6 +208,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await res.json();
           alert(data.msg);
+          router.reload();
           return true;
         } catch (error) {
           console.error('there was an error deleting');
@@ -234,6 +239,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await res.json();
           alert(data.msg);
+          router.reload();
           return true;
         } catch (error) {
           console.error('there was an error registering');
@@ -272,9 +278,55 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await res.json();
           alert(data.msg);
+          router.reload();
           return true;
         } catch (error) {
           console.error('there was an error updating');
+        }
+      },
+      addToCart: async (bookId, jumlahOrder) => {
+        const store = getStore();
+        const opts = {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: bookId,
+            jumlah: jumlahOrder,
+          }),
+        };
+        try {
+          const res = await fetch(`http://localhost:5000/addCartItem`, opts);
+          if (res.status !== 200) {
+            alert('there was an error adding to cart');
+            return false;
+          }
+          const data = await res.json();
+          alert(data.msg);
+          router.reload();
+          return true;
+        } catch (error) {
+          console.error('there was an error adding to cart');
+        }
+      },
+      getCartItem: async () => {
+        const store = getStore();
+        const opts = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+        };
+        try {
+          const res = await fetch('http://localhost:5000/getCartItem', opts);
+          const data = await res.json();
+
+          setStore({ userCart: data });
+        } catch (error) {
+          console.error('there was an error fetching cart data');
         }
       },
     },

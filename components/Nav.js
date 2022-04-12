@@ -61,21 +61,32 @@ const Nav = ({ user }) => {
           >
             ABOUT
           </p>
-          <Link
-            onClick={() => {
-              setShowMenu(false);
-            }}
-            href="/myproducts"
-          >
-            <p className="cursor-pointer border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white">
-              PRODUCTS
-            </p>
-          </Link>
+          {store.token && store.token != '' && store.token != undefined ? (
+            <Link
+              onClick={() => {
+                setShowMenu(false);
+              }}
+              href="/myproducts"
+            >
+              <p className="cursor-pointer border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white">
+                MY PRODUCTS
+              </p>
+            </Link>
+          ) : (
+            ''
+          )}
         </div>
         <div className="place-self-end h-12 flex  items-center space-x-5">
           {store.token && store.token != '' && store.token != undefined ? (
             <>
-              <ShoppingCartIcon className="hover:animate-bounce h-8 w-8" />
+              <Link href="/cart" role="button">
+                <div class="relative flex hover:animate-bounce">
+                  <ShoppingCartIcon className=" h-8 w-8 flex-1" />
+                  <span class="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
+                    {store.userCart.totalQuantity}
+                  </span>
+                </div>
+              </Link>
               <div
                 onClick={() => {
                   router.push('/user/profile');
@@ -95,7 +106,11 @@ const Nav = ({ user }) => {
                     height={50}
                   />
                 </div>
-                <p className="text-sm">{store.user.first_name}</p>
+                <p className="text-sm">
+                  {store.user.first_name +
+                    store.user.last_name +
+                    store.user.userID}
+                </p>
               </div>
             </>
           ) : (

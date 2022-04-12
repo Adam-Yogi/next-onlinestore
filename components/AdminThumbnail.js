@@ -25,8 +25,9 @@ const AdminThumbnail = ({
   const router = useRouter();
 
   const handleDelete = async (id) => {
-    await actions.deleteBook(id);
-    router.reload();
+    if (confirm('are you sure?')) {
+      await actions.deleteBook(id);
+    }
   };
   return (
     <>
@@ -67,9 +68,7 @@ const AdminThumbnail = ({
           />
           <TrashIcon
             onClick={() => {
-              if (confirm('are you sure?')) {
-                handleDelete(bookId);
-              }
+              handleDelete(bookId);
             }}
             className="w-7 h-7 cursor-pointer bg-red-500 rounded-md shadow p-1 "
           />

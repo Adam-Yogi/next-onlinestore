@@ -65,7 +65,7 @@ const UpdateModals = ({
     await actions.updateProduct(bookId, nama, harga, deskripsi, jumlah, imgUrl);
 
     await actions.fetchUserBooks();
-    router.reload();
+    router.push('/myproducts');
     // router.push('/');
   };
 
@@ -80,6 +80,9 @@ const UpdateModals = ({
   return isShown ? (
     <div className="p-4 fixed h-screen  top-0 left-0 z-20 w-full text-white bg-gray-800 bg-opacity-50 flex justify-center items-center backdrop-blur-sm">
       <div className="flex h-full overflow-scroll flex-col md:grid md:gap-4 md:grid-cols-2  gap-1  border-white border-2 p-3 md:p-4 border-opacity-60 rounded-lg bg-[#252849] bg-opacity-90 backdrop-blur-lg">
+        <h1 className="text-2xl font-bold lg:text-4xl text-white text-center col-span-2">
+          Update Book
+        </h1>
         <div className="flex flex-col items-center justify-center rounded-md overflow-hidden w-full gap-2 ">
           <Image
             src={imgPreview}

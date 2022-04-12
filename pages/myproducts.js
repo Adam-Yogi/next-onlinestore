@@ -1,11 +1,12 @@
 import LayoutNav from '../components/LayoutNav';
-import bookCoverExample from '../public/images/book.jpeg';
 import AdminThumbnail from '../components/AdminThumbnail';
 import Container from '../components/Container';
-import { PlusIcon, ArrowLeftIcon } from '@heroicons/react/outline';
+import { PlusIcon, ArrowLeftIcon, RefreshIcon } from '@heroicons/react/outline';
 import { useState, useEffect, useContext } from 'react';
+
 import AddModals from '../components/AddModals';
 import { Context } from '../store/AppContext';
+import { useRouter } from 'next/router';
 
 const myproducts = () => {
   // const booksData = props.request;
@@ -20,6 +21,12 @@ const myproducts = () => {
     });
   }, []);
 
+  const handleLoad = () => {
+    actions.fetchUserBooks().then(() => {
+      setUserBooks(store.userBooks);
+    });
+  };
+
   return (
     <LayoutNav>
       <button
@@ -33,41 +40,42 @@ const myproducts = () => {
       </button>
       <h1 className="text-white text-2xl font-bold text-center p-3">
         {store.user.first_name + ' ' + store.user.last_name + ' '}
-        PRODUCTS
+        products
       </h1>
-      <p className="text-white text-xl font-semibold text-center p-3">
-        Total of {userBooks.length} Products
-      </p>
+      {userBooks.length == 0 ? (
+        <p className="text-white text-2xl font-semibold text-center p-3">
+          You have no products yet
+        </p>
+      ) : (
+        ''
+      )}
       {userBooks.length > 0 ? (
-        <Container>
-          {userBooks.map((book) => (
-            <AdminThumbnail
-              key={book.productID}
-              bookId={book.productID}
-              imgUrl={book.image_product}
-              title={book.nama}
-              price={book.harga}
-              dateAdded={book.tgl_input}
-              available={book.jumlah}
-              description={book.deskripsi}
-            />
-          ))}
-        </Container>
+        <>
+          <p className="text-white text-2xl font-semibold text-center p-3">
+            Total of {userBooks.length} Products
+          </p>
+          <Container>
+            {userBooks.map((book) => (
+              <AdminThumbnail
+                key={book.productID}
+                bookId={book.productID}
+                imgUrl={book.image_product}
+                title={book.nama}
+                price={book.harga}
+                dateAdded={book.tgl_input}
+                available={book.jumlah}
+                description={book.deskripsi}
+              />
+            ))}
+          </Container>
+        </>
       ) : (
         <div className="flex flex-col gap-2 h-screen text-2xl font-bold text-white w-full justify-center items-center">
-          <h1>You have no product yet</h1>
-          <p className="text-white text-xl font-semibold text-center p-3">
-            There are {userBooks.length} products in your store
-          </p>
           <button
-            onClick={() => {
-              actions.fetchUserBooks().then(() => {
-                setUserBooks(store.userBooks);
-              });
-            }}
-            className="bg-indigo-400 hover:bg-indigo-600 text-white rounded-lg p-3 font-semibold shadow-2xl"
+            onClick={() => handleLoad()}
+            className="bg-indigo-400 hover:bg-indigo-600 flex gap-2 text-white rounded-lg p-3 font-semibold shadow-2xl"
           >
-            Fetch My Products
+            Load Products <RefreshIcon className="w-10" />
           </button>
         </div>
       )}

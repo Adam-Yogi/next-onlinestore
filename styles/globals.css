@@ -4,7 +4,6 @@
 
 @layer base {
   body {
-    @apply bg-[#252849];
     @apply bg-gradient-to-b;
 
     @apply from-indigo-600;
