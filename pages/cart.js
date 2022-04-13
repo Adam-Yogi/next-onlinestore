@@ -8,7 +8,6 @@ import CartItem from '../components/CartItem';
 const cart = () => {
   const { store, actions } = useContext(Context);
   const [userCart, setUserCart] = useState(store.userCart.data);
-
   useEffect(() => {
     actions.getCartItem().then(() => {
       setUserCart(store.userCart.data);
@@ -28,14 +27,14 @@ const cart = () => {
             store.totalQuantity == 0 ? 'justify-center items-center' : ''
           } flex-col gap-3 md:col-span-2`}
         >
-          {store.totalQuantity == 0 ? (
+          {!(store.totalQuantity > 0) ? (
             <h1 className="text-white text-bold text-center text-3xl">
               You don't have any product in your cart
             </h1>
           ) : (
             ''
           )}
-          {userCart && userCart != undefined && userCart != null ? (
+          {userCart.length > 0 && userCart != undefined && userCart != null ? (
             <>
               {userCart.map((cartItem) => {
                 return (
@@ -60,7 +59,7 @@ const cart = () => {
             </div>
           )}
         </div>
-        <div className="grid md:gap-3 md:bg-gradient-to-b md:from-indigo-900 md:to-black bg-opacity-60 md:p-8 md:rounded-lg md:shadow-xl  w-100 my-2 gap-1">
+        <div className="grid md:gap-3 md:bg-gradient-to-b md:from-black bg-opacity-60 md:p-8 md:rounded-lg md:shadow-xl  w-100 my-2 gap-1">
           <h3 className="text-white text-lg">
             Subtotal{' '}
             {store.userCart.totalQuantity ? store.userCart.totalQuantity : '0'}{' '}

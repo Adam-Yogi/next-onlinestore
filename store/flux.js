@@ -8,7 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       user: {},
       books: [],
       userBooks: [],
-      userCart: {},
+      userCart: { data: [], totalQuantity: 0, totalHarga: 0 },
       totalQuantity: 0,
     },
     actions: {
@@ -326,9 +326,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await res.json();
 
           setStore({
-            userCart: data,
+            userCart: data.data ? data : store.userCart,
             totalQuantity: data.totalQuantity ? data.totalQuantity : 0,
           });
+          if (data.data.length == 0) alert('you have no product in your cart');
         } catch (error) {
           console.error('there was an error fetching cart data');
         }
