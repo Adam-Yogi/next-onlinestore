@@ -11,7 +11,7 @@ const CartItem = ({ bookId, title, harga, jumlah }) => {
 
   return (
     <div className="grid items-center py-2 px-3 grid-cols-8 border-b-2 border-white border-opacity-90 rounded-r-xl">
-      <Link href={'/details?id=4'}>
+      <Link href={`/details?id=${bookId}`}>
         <h2
           className={`${
             title.length > 18 && 'truncate'

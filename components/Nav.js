@@ -11,7 +11,7 @@ import { Context } from '../store/AppContext';
 import { useContext, useState } from 'react';
 import logo from '../public/images/logob.svg';
 
-const Nav = ({ user }) => {
+const Nav = () => {
   const router = useRouter();
   const { store, actions } = useContext(Context);
   const [showMenu, setShowMenu] = useState(false);
@@ -41,7 +41,7 @@ const Nav = ({ user }) => {
         <div
           className={`font-thin top-0 absolute ${
             showMenu ? 'left-0' : '-left-[100%]'
-          } transition-all ease-in-out duration-200 lg:static z-10 w-screen lg:w-100 p-3 row-start-2 col-span-3 flex space-x-12 sm:space-x-32 items-center grow justify-center tracking-widest`}
+          } transition-all ease-in-out duration-200 lg:static z-10 w-screen lg:w-100 p-3 row-start-2 col-span-3 flex space-x-12 sm:space-x-32 items-center grow justify-center tracking-widest bg-gradient-to-tl from-indigo-900 to-indigo-800 md:bg-transparent`}
         >
           <Link
             onClick={() => {
@@ -80,9 +80,9 @@ const Nav = ({ user }) => {
           {store.token && store.token != '' && store.token != undefined ? (
             <>
               <Link href="/cart" role="button">
-                <div class="relative flex hover:animate-bounce">
+                <div className="relative flex hover:animate-bounce">
                   <ShoppingCartIcon className=" h-8 w-8 flex-1" />
-                  <span class="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
+                  <span className="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
                     {store.totalQuantity}
                   </span>
                 </div>
@@ -106,16 +106,14 @@ const Nav = ({ user }) => {
                     height={50}
                   />
                 </div>
-                <p className="text-sm">
-                  {store.user.first_name +
-                    store.user.last_name +
-                    store.user.userID}
+                <p className="text-sm whitespace-nowrap capitalize flex">
+                  {store.user.nama}
                 </p>
               </div>
             </>
           ) : (
             <Link href="/login">
-              <button className="bg-indigo-300 hover:bg-indigo-400 rounded-xl shadow-lg p-2 font-semibold text-lg md:text-xl text-white">
+              <button className="bg-gradient-to-r hover:bg-gradient-to-l from-purple-500 to-violet-800    font-roboto  border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150 bg-indigo-300 hover:bg-indigo-400 rounded-xl shadow-lg p-2 font-semibold text-lg md:text-xl text-white">
                 Login
               </button>
             </Link>

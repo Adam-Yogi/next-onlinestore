@@ -14,6 +14,7 @@ const Details = (props) => {
   const otherBooksData = props.resOther;
   const bookDetails = props.resDetail[0];
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
   // useEffect(async () => {
   //   const res = await fetch(
   //     `http://localhost:5000/details?id=${router.query.id}`
@@ -26,7 +27,10 @@ const Details = (props) => {
   const handleAddToCart = () => {
     if (store.token && store.token != '' && store.token != undefined)
       setShowModal(true);
-    else alert('please login or register first');
+    else {
+      alert('please login or register first');
+      router.push('/daftar');
+    }
   };
   return (
     <>
@@ -52,7 +56,7 @@ const Details = (props) => {
                 {bookDetails.nama}
               </h1>
               <p className="lg:text-lg text-gray-100">
-                by {bookDetails.owner.toUpperCase()}
+                by {bookDetails.owner && bookDetails.owner.toUpperCase()}
               </p>
               <p className="text-sm text-gray-300">
                 Date Added : {bookDetails.tgl_input}
@@ -102,6 +106,7 @@ const Details = (props) => {
                 imgUrl={book.image_product}
                 title={book.nama}
                 price={book.harga}
+                available={book.jumlah}
               />
             ))}
           </div>

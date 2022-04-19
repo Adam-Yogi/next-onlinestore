@@ -27,11 +27,27 @@ const myproducts = () => {
     });
   };
 
+  const handleAddProduct = () => {
+    if (
+      !store.user.alamat ||
+      !store.user.kodepos ||
+      !store.user.idKota ||
+      !store.user.idProvinsi ||
+      !store.user.provinsi ||
+      !store.user.kota
+    ) {
+      alert('Lengkapi alamatmu terlebih dahulu');
+      router.push('/updateaddress');
+    } else {
+      setShowModal(true);
+    }
+  };
+
   return (
     <LayoutNav>
       <button
         onClick={() => {
-          setShowModal(true);
+          handleAddProduct();
         }}
         title="add product"
         className="hover:bg-green-600 text-white z-10 fixed top-24 shadow-2xl right-4 bg-green-400 p-2 rounded-full"
@@ -39,8 +55,7 @@ const myproducts = () => {
         <PlusIcon className="h-8 w-8" />
       </button>
       <h1 className="text-white capitalize text-2xl font-bold text-center p-3">
-        {store.user.first_name + ' ' + store.user.last_name + ' '}
-        products
+        {store.user.nama + "'s"} products
       </h1>
       {userBooks.length == 0 ? (
         <p className="text-white text-2xl font-semibold text-center p-3">
@@ -49,36 +64,41 @@ const myproducts = () => {
       ) : (
         ''
       )}
-      {userBooks.length > 0 ? (
-        <>
-          <p className="text-white text-2xl font-semibold text-center p-3">
-            Total of {userBooks.length} Products
-          </p>
-          <Container>
-            {userBooks.map((book) => (
-              <AdminThumbnail
-                key={book.productID}
-                bookId={book.productID}
-                imgUrl={book.image_product}
-                title={book.nama}
-                price={book.harga}
-                dateAdded={book.tgl_input}
-                available={book.jumlah}
-                description={book.deskripsi}
-              />
-            ))}
-          </Container>
-        </>
-      ) : (
-        <div className="flex flex-col gap-2 h-screen text-2xl font-bold text-white w-full justify-center items-center">
-          <button
-            onClick={() => handleLoad()}
-            className="bg-indigo-400 hover:bg-indigo-600 flex gap-2 text-white rounded-lg p-3 font-semibold shadow-2xl"
-          >
-            Load Products <RefreshIcon className="w-10" />
-          </button>
-        </div>
-      )}
+      {
+        userBooks.length > 0 ? (
+          <>
+            <p className="text-white text-2xl font-semibold text-center p-3">
+              Total of {userBooks.length} Products
+            </p>
+            <Container>
+              {userBooks.map((book) => (
+                <AdminThumbnail
+                  key={book.productID}
+                  bookId={book.productID}
+                  imgUrl={book.image_product}
+                  title={book.nama}
+                  price={book.harga}
+                  dateAdded={book.tgl_input}
+                  available={book.jumlah}
+                  description={book.deskripsi}
+                />
+              ))}
+            </Container>
+          </>
+        ) : (
+          ''
+        )
+        // (
+        //   <div className="flex flex-col gap-2 h-screen text-2xl font-bold text-white w-full justify-center items-center">
+        //     <button
+        //       onClick={() => handleLoad()}
+        //       className="bg-indigo-400 hover:bg-indigo-600 flex gap-2 text-white rounded-lg p-3 font-semibold shadow-2xl"
+        //     >
+        //       Load Products <RefreshIcon className="w-10" />
+        //     </button>
+        //   </div>
+        // )
+      }
       {showModal && (
         <button
           className="fixed bg-gray-900 text-gray-300 flex items-center justify-center p-2 bg-opacity-50 left-8 z-30 top-8 rounded-md group border-2 border-gray-400 hover:border-white hover:text-indigo-300"

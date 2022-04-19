@@ -10,8 +10,7 @@ module.exports = {
       }),
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'],
-        roboto: ['Roboto', 'sans-serif'],
-        gruppo: ['Gruppo', 'cursive'],
+        roboto: ['Roboto Condensed', 'sans-serif'],
       },
     },
   },

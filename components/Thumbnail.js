@@ -2,10 +2,12 @@ import bookCover from '../public/images/book.jpeg';
 import Image from 'next/image';
 import { useState } from 'react';
 import Modals from './Modals';
-import { ArrowLeftIcon } from '@heroicons/react/solid';
 
 const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
   const [showModal, setShowModal] = useState(false);
+  const closeModal = () => {
+    setShowModal(false);
+  };
   return (
     <>
       <div
@@ -31,7 +33,7 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
             {title}
           </h2>
           <p className=" md:text-lg group-hover:animate-pulse text-gray-300 group-hover:text-white">
-            {available} left
+            {available <= 5 ? `${available} left` : 'Tersedia'}
           </p>
           <p className="font-semibold text-xl md:text-xl py-1 opacity-90 group-hover:opacity-100 ">
             Rp{price}
@@ -42,17 +44,9 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
           </p>
         </div>
       </div>
-      {showModal && (
-        <button
-          className="fixed bg-gray-900 text-gray-300 flex items-center justify-center p-2 bg-opacity-50 left-8 z-30 top-8 rounded-md group border-2 border-gray-400 hover:border-white hover:text-indigo-300"
-          onClick={() => setShowModal(false)}
-        >
-          <ArrowLeftIcon className="h-8 w-8 " /> Back
-        </button>
-      )}
-
       <Modals
         isShown={showModal}
+        closeModal={closeModal}
         title={title}
         imgUrl={imgUrl}
         dateAdded={dateAdded}

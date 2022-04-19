@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       books: [],
       userBooks: [],
       userCart: { data: [], totalQuantity: 0, totalHarga: 0 },
+      userCheckoutItems: [],
       totalQuantity: 0,
     },
     actions: {
@@ -26,6 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       login: async (email, password) => {
+        const actions = getActions();
         const opts = {
           method: 'POST',
           headers: {
@@ -45,6 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await res.json();
           sessionStorage.setItem('user_token', data.access_token);
           setStore({ token: data.access_token });
+          actions.getCartItem();
           return true;
         } catch (error) {
           console.error('there was an error logging in');
@@ -53,6 +56,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       fetchUser: async () => {
         const store = getStore();
+
+        // actions.syncTokenFromSessionStore();
         const opts = {
           method: 'GET',
           headers: {
@@ -65,6 +70,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await res.json();
+
           setStore({ user: data[0] });
 
           return true;
@@ -173,6 +179,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       fetchUserBooks: async () => {
         const store = getStore();
+        const actions = getActions();
+        actions.syncTokenFromSessionStore();
         const opts = {
           method: 'GET',
           headers: {
@@ -314,6 +322,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       getCartItem: async () => {
         const store = getStore();
+        const actions = getActions();
+        actions.syncTokenFromSessionStore();
         const opts = {
           method: 'GET',
           headers: {
@@ -327,9 +337,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           setStore({
             userCart: data.data ? data : store.userCart,
-            totalQuantity: data.totalQuantity ? data.totalQuantity : 0,
+            totalQuantity: data.totalQuantity || 0,
           });
-          if (data.data.length == 0) alert('you have no product in your cart');
         } catch (error) {
           console.error('there was an error fetching cart data');
         }
@@ -354,6 +363,76 @@ const getState = ({ getStore, getActions, setStore }) => {
           router.reload();
         } catch (error) {
           console.error('there was an error fetching cart data');
+        }
+      },
+      updateAddress: async (
+        kota,
+        idKota,
+        provinsi,
+        idProvinsi,
+        alamat,
+        kodepos
+      ) => {
+        const store = getStore();
+        const opts = {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            alamat: alamat,
+            idKota: idKota,
+            kota: kota,
+            idProvinsi: idProvinsi,
+            provinsi: provinsi,
+            kodepos: kodepos,
+          }),
+        };
+        try {
+          const res = await fetch(`http://localhost:5000/updateaddress`, opts);
+          if (res.status !== 200) {
+            alert('there was an error updating');
+            return false;
+          }
+          const data = await res.json();
+          alert(data.msg);
+          router.push('/user/profile');
+          return true;
+        } catch (error) {
+          console.error('there was an error updating');
+        }
+      },
+      getCheckoutItem: async () => {
+        const store = getStore();
+        const actions = getActions();
+        actions.syncTokenFromSessionStore();
+
+        const opts = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+        };
+        try {
+          const res = await fetch('http://localhost:5000/checkout', opts);
+          const data = await res.json();
+          console.log(data);
+
+          data.map((seller) => {
+            seller.totalHargaToko = 0;
+            seller.totalBerat = 0;
+            seller.produk.map((item) => {
+              seller.totalHargaToko += Number(item.totalHarga);
+              seller.totalBerat += Number(item.quantity) * 300;
+            });
+          });
+          setStore({
+            userCheckoutItems: data,
+          });
+        } catch (error) {
+          console.error('there was an error fetching checkout data');
         }
       },
     },

@@ -5,6 +5,7 @@ import { Context } from '../../store/AppContext';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ArrowLeftIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
 
 const profile = () => {
   const router = useRouter();
@@ -66,7 +67,7 @@ const profile = () => {
           </div>
           <div className="text-white p-3 py-5 md:grid md:grid-cols-2 md:gap-2">
             <div className="grid space-y-5 md:space-y-0 md:grid-rows-5 md:grid-cols-1 items-center justify-center">
-              <div className="place-self-center md:row-span-3 w-10/12 md:w-8/12 rounded-full border-4 border-indigo-300 overflow-hidden">
+              <div className="place-self-center md:row-span-2 w-6/12 lg:w-4/12 rounded-full border-4 border-indigo-300 overflow-hidden">
                 <Image
                   src={
                     store.user.profile_pic ? store.user.profile_pic : userAvatar
@@ -76,7 +77,7 @@ const profile = () => {
                   width={200}
                 />
               </div>
-              <div className="place-self-center flex justify-between items-center w-9/12 border-white border-opacity-20 border-2 p-2 rounded-lg md:place-self-center">
+              <div className="place-self-center flex justify-between items-center w-9/12 md:w-8/12 lg:w-6/12 border-white border-opacity-20 border-2 p-2 rounded-lg md:row-span-1 md:place-self-center">
                 <input
                   type="file"
                   onChange={(event) => {
@@ -93,27 +94,44 @@ const profile = () => {
                   Upload
                 </button>
               </div>
-              <div className=" flex flex-col items-center md:place-self-center p-3">
+              <div className="md:row-span-2 flex flex-col items-center md:place-self-center p-3 md:px-3">
                 <h3 className="font-bold text-xl uppercase">
-                  {store.user.first_name + ' ' + store.user.last_name}
+                  {store.user.nama}
                 </h3>
-                <table>
+                <table className="">
                   <tr>
-                    <td>User ID</td>
-                    <td>: {store.user.userID}</td>
+                    <td className="whitespace-nowrap">User ID</td>
+                    <td className="pl-3">: {store.user.userID}</td>
                   </tr>
                   <tr>
-                    <td>Email</td>
-                    <td>: {store.user.email}</td>
+                    <td className="whitespace-nowrap">Email</td>
+                    <td className="pl-3">: {store.user.email}</td>
                   </tr>
                   <tr>
-                    <td>Phone</td>
-                    <td>: {store.user.no_telp}</td>
+                    <td className="whitespace-nowrap">Phone</td>
+                    <td className="pl-3">: {store.user.no_telp}</td>
+                  </tr>
+                  <tr>
+                    <td className="whitespace-nowrap">Alamat</td>
+                    <td className="pl-3">
+                      :{' '}
+                      {store.user.alamat &&
+                      store.user.kodepos &&
+                      store.user.kota &&
+                      store.user.provinsi
+                        ? `${store.user.alamat}, ${store.user.kodepos}, ${store.user.kota}, ${store.user.provinsi}`
+                        : '-'}{' '}
+                      <Link href="/updateaddress">
+                        <button className="bg-green-400 hover:bg-opacity-100 transition-all ease-in-out duration-150 bg-opacity-40 p-1 rounded-md">
+                          Edit
+                        </button>
+                      </Link>
+                    </td>
                   </tr>
                 </table>
               </div>
             </div>
-            <div className="flex flex-col px-3 md:justify-around space-y-4 md:pr-4 ">
+            <div className="flex flex-col px-3 md:space-y-10 space-y-3 md:pr-4 ">
               <div className="flex justify-center flex-col">
                 <label htmlFor="first_name">First Name</label>
                 <input
@@ -199,10 +217,15 @@ const profile = () => {
           </div>
         </>
       ) : (
-        <div className="flex justify-center items-center h-screen">
-          <h1 className="text-xl font-bold text-red-300">
-            Unavailable, please login first!
+        <div className="flex flex-col gap-2 justify-center items-center h-screen">
+          <h1 className="text-xl font-bold text-white">
+            Unavailable, please login or register first!
           </h1>
+          <Link href="/login">
+            <button className="bg-gradient-to-r mt-3 hover:bg-gradient-to-l from-sky-600 to-blue-600 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
+              Login
+            </button>
+          </Link>
         </div>
       )}
     </LayoutNav>

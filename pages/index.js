@@ -21,7 +21,7 @@ export default function Home(props) {
     <LayoutNav user>
       <div className="items-center flex w-100 p-6 bg-cover shadow-2xl md:h-56 h-48 bg-hero-pattern bg-no-repeat m-3 md:mx-36 lg:mx-48 rounded-lg">
         <h1 className="capitalize font-roboto font-bold text-white text-4xl md:text-6xl">
-          Welcome back {store.user.first_name}!
+          Welcome back {store.user.nama}!
         </h1>
       </div>
       {booksData.length != 0 ? (

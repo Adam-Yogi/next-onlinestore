@@ -1,10 +1,12 @@
 import { ArrowRightIcon } from '@heroicons/react/solid';
+import { ArrowLeftIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Modals = ({
   isShown,
+  closeModal,
   bookId,
   title,
   price,
@@ -20,6 +22,12 @@ const Modals = ({
      from-indigo-600;
      to-[#191c3a]; bg-opacity-50 flex justify-center items-center backdrop-blur-sm"
     >
+      <button
+        className="fixed bg-gray-900 text-gray-300 flex items-center justify-center p-2 bg-opacity-50 left-8 z-30 top-8 rounded-md group border-2 border-gray-400 hover:border-white hover:text-indigo-300"
+        onClick={() => closeModal()}
+      >
+        <ArrowLeftIcon className="h-8 w-8 " /> Back
+      </button>
       <div className="flex flex-col md:grid md:gap-4 md:grid-cols-2  gap-1 overflow-hidden border-white border-2 p-3 md:p-4 border-opacity-60 rounded-lg bg-[#252849] bg-opacity-90 backdrop-blur-lg">
         <div className="flex items-center justify-center rounded-md overflow-hidden w-full  ">
           <Image
@@ -42,7 +50,12 @@ const Modals = ({
           </p>
 
           <Link href={`/details?id=${bookId}`}>
-            <button className=" self-stretch bg-gradient-to-r mt-3 hover:bg-gradient-to-l from-purple-400 to-indigo-400 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
+            <button
+              onClick={() => {
+                closeModal();
+              }}
+              className=" self-stretch bg-gradient-to-r mt-3 hover:bg-gradient-to-l from-purple-400 to-indigo-400 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150"
+            >
               Details
             </button>
           </Link>
