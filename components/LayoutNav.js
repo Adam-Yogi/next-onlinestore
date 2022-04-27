@@ -1,3 +1,4 @@
+import Footer from './Footer.js';
 import Nav from './Nav.js';
 
 const LayoutNav = (props) => {
@@ -5,6 +6,7 @@ const LayoutNav = (props) => {
     <div className="min-h-screen">
       <Nav user={props.user} />
       {props.children}
+      <Footer />
     </div>
   );
 };
