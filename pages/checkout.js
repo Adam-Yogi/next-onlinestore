@@ -4,9 +4,11 @@ import AddressModal from '../components/AddressModal';
 import LayoutNav from '../components/LayoutNav';
 import { Context } from '../store/AppContext';
 import CheckoutItemComponent from '../components/CheckoutItemComponent';
+import PaymentModals from '../components/PaymentModal';
 
 const checkout = () => {
   // initial state => alamat default user
+
   const { store, actions } = useContext(Context);
   const [userCheckout, setUserCheckout] = useState([]);
   useEffect(() => {
@@ -24,7 +26,8 @@ const checkout = () => {
   const [postal, setPostal] = useState(store.user.kodepos);
   const [penerima, setPenerima] = useState(store.user.nama);
   const [phone, setPhone] = useState(store.user.no_telp);
-  const [showModal, setShowModal] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [useAlamatLain, setUseAlamatLain] = useState(false);
   const [totalOngkir, setTotalOngkir] = useState(0);
 
@@ -32,12 +35,15 @@ const checkout = () => {
     setTotalOngkir(Number(totalOngkir) - Number(prevState) + Number(newState));
   };
 
+  const handlePaymentBack = () => {
+    setShowPaymentModal(false);
+  };
   const handleBack = () => {
-    setShowModal(false);
+    setShowAddressModal(false);
     setUseAlamatLain(false);
   };
   const openModal = () => {
-    setShowModal(true);
+    setShowAddressModal(true);
   };
 
   const handleSave = (
@@ -58,7 +64,7 @@ const checkout = () => {
     setProvID(selectedProvID);
     setAlamat(alamat);
     setPostal(postal);
-    setShowModal(false);
+    setShowAddressModal(false);
   };
 
   const resetAlamat = () => {
@@ -75,23 +81,28 @@ const checkout = () => {
   const handleChoosePayment = () => {
     if (
       !(
-        penerima &&
-        phone &&
-        alamat &&
-        postal &&
-        selectedCity &&
-        selectedProvince &&
-        selectedCityID &&
+        penerima ||
+        phone ||
+        alamat ||
+        postal ||
+        selectedCity ||
+        selectedProvince ||
+        selectedCityID ||
         selectedProvID
       )
-    )
+    ) {
       alert('Pilih alamat pengiriman terlebih dahulu');
+      return;
+    } else if (totalOngkir == 0) {
+      alert('pilih kurir pengiriman');
+      return;
+    }
+    setShowPaymentModal(true);
   };
   return (
     <>
       <LayoutNav>
-        {/* store.token && store.token != '' && store.token != undefined */}
-        {true ? (
+        {store.token && store.token != '' && store.token != undefined ? (
           <div className=" p-4 md:grid md:grid-cols-3 md:items-start gap-3 md:gap-4 w-100">
             <div
               className={`flex 
@@ -185,7 +196,7 @@ const checkout = () => {
                 onClick={() => handleChoosePayment()}
                 className="bg-gradient-to-r mt-3 hover:bg-gradient-to-l from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150"
               >
-                Pilih Pembayaran
+                Buat Pesanan
               </button>
             </div>
           </div>
@@ -203,9 +214,14 @@ const checkout = () => {
         )}
       </LayoutNav>
       <AddressModal
-        isShown={showModal}
+        isShown={showAddressModal}
         liftStateUp={handleSave}
         handleBack={handleBack}
+      />
+      <PaymentModals
+        isShown={showPaymentModal}
+        closeModal={handlePaymentBack}
+        totalHarga={Number(store.userCart.totalHarga) + Number(totalOngkir)}
       />
     </>
   );

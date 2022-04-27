@@ -11,6 +11,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userCart: { data: [], totalQuantity: 0, totalHarga: 0 },
       userCheckoutItems: [],
       totalQuantity: 0,
+      userOrder: {},
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -191,6 +192,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const res = await fetch('http://localhost:5000/userproduct', opts);
           const data = await res.json();
+
           setStore({ userBooks: data });
         } catch (error) {
           console.error('there was an error fetching');
@@ -418,7 +420,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const res = await fetch('http://localhost:5000/checkout', opts);
           const data = await res.json();
-          console.log(data);
 
           data.map((seller) => {
             seller.totalHargaToko = 0;
@@ -433,6 +434,88 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
         } catch (error) {
           console.error('there was an error fetching checkout data');
+        }
+      },
+      makeOrder: async (totalHarga, bank) => {
+        const store = getStore();
+        const opts = {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            totalharga: totalHarga,
+            bank: bank,
+          }),
+        };
+        try {
+          const res = await fetch(`http://localhost:5000/buatorder`, opts);
+          if (res.status !== 200) {
+            alert('there was an error placing order');
+            return false;
+          }
+          const data = await res.json();
+          alert(data.msg);
+          router.push('/order');
+          return true;
+        } catch (error) {
+          console.error('there was an error placing order');
+        }
+      },
+      getOrder: async () => {
+        const store = getStore();
+        const actions = getActions();
+        actions.syncTokenFromSessionStore();
+        const opts = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+        };
+        try {
+          const res = await fetch(`http://localhost:5000/Order`, opts);
+          if (res.status !== 200) {
+            alert('there was an error getting order');
+            return false;
+          }
+          const data = await res.json();
+
+          setStore({
+            userOrder: data[0] ? data[0] : {},
+          });
+          return true;
+        } catch (error) {
+          console.error('there was an error getting order');
+        }
+      },
+      cekStatus: async (orderID) => {
+        const store = getStore();
+        const opts = {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            orderID: orderID,
+          }),
+        };
+        try {
+          const res = await fetch(
+            `http://localhost:5000/cekstatuspembayaran`,
+            opts
+          );
+          if (res.status !== 200) {
+            alert('there was an error checking payment status');
+            return false;
+          }
+          const data = await res.json();
+          console.log(data.msg);
+          return true;
+        } catch (error) {
+          console.error('there was an error checking payment status');
         }
       },
     },

@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, useContext } from 'react';
-import defaultCover from '../public/images/defaultcover.png';
+import defaultCover from '../public/images/defaultcover2.png';
 import { Context } from '../store/AppContext';
+import { RefreshIcon } from '@heroicons/react/outline';
 
 const AddModals = ({ isShown }) => {
   const [selectedImage, setSelectedImage] = useState('');
@@ -10,14 +11,26 @@ const AddModals = ({ isShown }) => {
   const [harga, setHarga] = useState('');
   const [nama, setNama] = useState('');
   const [jumlah, setJumlah] = useState('');
+  const [deskripsi, setDeskripsi] = useState('');
+
+  const [showLoading, setShowLoading] = useState(false);
   // const [imgProduct, setImgProduct] = useState(
   //   'https://i.ibb.co/1GQz0db/defaultcover.png'
   // );
 
-  const [deskripsi, setDeskripsi] = useState('');
   const { store, actions } = useContext(Context);
   const router = useRouter();
   const uploadBook = async () => {
+    if (
+      harga.length <= 0 ||
+      nama.length <= 0 ||
+      jumlah.length <= 0 ||
+      deskripsi.length <= 0
+    ) {
+      alert('lengkapi data buku');
+      return null;
+    }
+    setShowLoading(true);
     const formData = new FormData();
     formData.append('image', selectedImage);
     formData.append('name', nama);
@@ -35,7 +48,7 @@ const AddModals = ({ isShown }) => {
     data.data.url && data.data.url != '' && data.data.url != undefined
       ? await actions.addBook(nama, harga, deskripsi, jumlah, data.data.url)
       : await actions.addBook(nama, harga, deskripsi, jumlah, defaultCoverURL);
-
+    setShowLoading(false);
     await actions.fetchUserBooks();
 
     router.reload();
@@ -85,7 +98,7 @@ const AddModals = ({ isShown }) => {
                   ? false
                   : true
               }
-              className=" disabled:bg-red-900 disabled:text-black bg-red-500 hover:bg-red-400 rounded-lg shadow-lg p-3"
+              className=" disabled:opacity-20 font-bold bg-red-500 hover:bg-red-400 rounded-lg shadow-lg p-3"
             >
               Remove Image
             </button>
@@ -145,15 +158,19 @@ const AddModals = ({ isShown }) => {
             />
           </div>
           <div className="flex justify-center flex-col">
-            <button
-              type="submit"
-              className="bg-green-400 rounded-xl p-3 text-white font-bold disabled:bg-green-800 disabled:opacity-25"
-              onClick={() => {
-                uploadBook();
-              }}
-            >
-              Add
-            </button>
+            {showLoading ? (
+              <RefreshIcon className="w-8 place-self-center animate-spin" />
+            ) : (
+              <button
+                type="submit"
+                className="bg-green-400 rounded-xl p-3 text-white font-bold disabled:bg-green-800 disabled:opacity-25"
+                onClick={() => {
+                  uploadBook();
+                }}
+              >
+                Add
+              </button>
+            )}
           </div>
         </div>
       </div>

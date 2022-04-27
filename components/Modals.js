@@ -40,8 +40,12 @@ const Modals = ({
         </div>
         <div className="flex md:gap-2 flex-col md:self-center">
           <h1 className="font-bold md:text-5xl text-3xl">{title}</h1>
-          <p className="text-lg md:text-xl text-[#d60ac9] animate-pulse">
-            {available} left
+          <p className={`text-lg md:text-xl text-[#d60ac9] animate-pulse`}>
+            {available <= 5 ? (
+              <>{available == 0 ? 'Kosong' : `${available} left`}</>
+            ) : (
+              'Tersedia'
+            )}
           </p>
 
           <p className="text-2xl md:text-4xl font-semibold">Rp{price}</p>

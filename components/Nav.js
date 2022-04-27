@@ -6,6 +6,9 @@ import {
   ShoppingCartIcon,
   MenuIcon,
   XCircleIcon,
+  ClipboardListIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
 } from '@heroicons/react/outline';
 import { Context } from '../store/AppContext';
 import { useContext, useState } from 'react';
@@ -15,6 +18,7 @@ const Nav = () => {
   const router = useRouter();
   const { store, actions } = useContext(Context);
   const [showMenu, setShowMenu] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
   return (
     <nav className=" shadow-2xl">
@@ -76,17 +80,52 @@ const Nav = () => {
             ''
           )}
         </div>
-        <div className="place-self-end h-12 flex  items-center space-x-5">
+        <div className="relative place-self-end h-12 flex  items-center space-x-5">
           {store.token && store.token != '' && store.token != undefined ? (
             <>
-              <Link href="/cart" role="button">
-                <div className="relative flex hover:animate-bounce">
-                  <ShoppingCartIcon className=" h-8 w-8 flex-1" />
-                  <span className="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
-                    {store.totalQuantity}
-                  </span>
-                </div>
-              </Link>
+              <div
+                className="relative lg:hidden cursor-pointer"
+                onClick={() => {
+                  setShowCart(!showCart);
+                }}
+              >
+                {showCart ? (
+                  <ChevronUpIcon className="h-8 w-8  col-start-1" />
+                ) : (
+                  <ChevronDownIcon className="h-8 w-8 col-start-1" />
+                )}
+              </div>
+              <div
+                className={`flex flex-col lg:flex-row gap-4 absolute -left-8 ${
+                  showCart ? 'top-14 bg-opacity-0 ' : '-top-[270%] -rotate-90'
+                } transition-all ease-in-out shadow-xl lg:rotate-0 lg:shadow-none rounded-b-lg duration-500 lg:static z-10 bg-gradient-to-tl from-indigo-900 to-indigo-800 lg:bg-opacity-0 p-3 `}
+              >
+                <Link href="/cart" role="button">
+                  <div className="relative flex hover:animate-bounce">
+                    <ShoppingCartIcon className=" w-8 flex-1" />
+                    <span className="absolute right-0 top-0 rounded-full bg-red-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
+                      {store.totalQuantity}
+                    </span>
+                  </div>
+                </Link>
+                <Link href="/order" role="button">
+                  <div className="relative flex hover:animate-bounce">
+                    <ClipboardListIcon className="w-8 flex-1" />
+                    {Object.keys(store.userOrder).length !== 0 && (
+                      <span
+                        className={`absolute right-0 top-0 rounded-full ${
+                          store.userOrder.status == 'settlement'
+                            ? 'bg-green-400'
+                            : 'bg-yellow-400'
+                        } w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center`}
+                      >
+                        ~
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              </div>
+
               <div
                 onClick={() => {
                   router.push('/user/profile');

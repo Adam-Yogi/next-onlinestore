@@ -9,12 +9,11 @@ const CheckoutItemComponent = ({
 }) => {
   const [sellerCityID, setSellerCityID] = useState(CheckoutItem.idKota);
   // const [buyerCityID, setBuyerCityID] = useState(buyerLocation);
-  const [kurir, setKurir] = useState('jne');
+  const [kurir, setKurir] = useState('');
   const [pilihOngkir, setPilihOngkir] = useState();
   const [tipeOngkir, setTipeOngkir] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-  const [totalBerat, setTotalBerat] = useState(0);
 
   // useEffect(async () => {
   //   console.log(buyerCityID);
@@ -115,15 +114,19 @@ const CheckoutItemComponent = ({
             onChange={(e) => setKurir(e.target.value)}
             className="text-black p-1 rounded-md shadow-sm"
           >
+            <option value="" selected disabled hidden>
+              Pilih Kurir
+            </option>
             <option value="jne">JNE</option>
             <option value="tiki">TIKI</option>
             <option value="pos">POS ID</option>
           </select>
           <button
-            className="ml-1 p-1 bg-blue-400 rounded-md shadow-xl"
+            className="disabled:opacity-40 ml-1 p-1 bg-blue-400 rounded-md shadow-xl"
             onClick={() => {
               handleOngkir();
             }}
+            disabled={kurir == ''}
           >
             Pilih Kurir
           </button>
@@ -141,7 +144,9 @@ const CheckoutItemComponent = ({
               }
               className="text-black p-1 rounded-md shadow-sm"
             >
-              <option value="">-</option>
+              <option value="" selected disabled hidden>
+                Pilih Tipe Pengiriman
+              </option>
               {tipeOngkir.map((tipe) => (
                 <option value={tipe.cost[0].value}>
                   {tipe.description} ({tipe.service})

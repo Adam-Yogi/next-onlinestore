@@ -16,6 +16,7 @@ const AddressForm = ({ liftStateUp }) => {
 
   const handleProvinceChange = (e) => {
     const value = e.target.value;
+    console.log(value);
     const [province_id, province] = value.split(',');
     setProv(province);
     setProvID(province_id);
@@ -26,6 +27,7 @@ const AddressForm = ({ liftStateUp }) => {
   };
   const handleCityChange = (e) => {
     const value = e.target.value;
+    console.log(value);
     const [city_id, city] = value.split(',');
     setCity(city);
     setCityID(city_id);
@@ -43,9 +45,9 @@ const AddressForm = ({ liftStateUp }) => {
   };
 
   return (
-    <div className=" bg-black rounded-md shadow-2xl p-4 gap-2 grid grid-cols-2">
+    <form className=" bg-black rounded-md shadow-2xl p-4 gap-2 grid grid-cols-2">
       <div className="flex flex-col gap-3">
-        <label className="text-white font-nunito" for="province">
+        <label className="text-white font-nunito" htmlFor="province">
           Provinsi:
         </label>
         <select
@@ -54,9 +56,11 @@ const AddressForm = ({ liftStateUp }) => {
           id="province"
           onChange={(e) => handleProvinceChange(e)}
         >
-          <option value="">-</option>
-          {cityProvince.map((item) => (
-            <option value={`${item.province_id},${item.province}`}>
+          <option value="" selected disabled hidden>
+            Kota
+          </option>
+          {cityProvince.map((item, index) => (
+            <option key={index} value={`${item.province_id},${item.province}`}>
               {item.province}
             </option>
           ))}
@@ -72,9 +76,11 @@ const AddressForm = ({ liftStateUp }) => {
           id="city"
           onChange={(e) => handleCityChange(e)}
         >
-          <option value="">-</option>
-          {cityList.map((item) => (
-            <option value={`${item.city_id},${item.city_name}`}>
+          <option value="" selected disabled hidden>
+            Provinsi
+          </option>
+          {cityList.map((item, index) => (
+            <option key={index} value={`${item.city_id},${item.city_name}`}>
               {item.type} {item.city_name}
             </option>
           ))}
@@ -114,13 +120,14 @@ const AddressForm = ({ liftStateUp }) => {
       </div>
       <div className="text-white row-start-4">
         <button
+          type="submit"
           onClick={() => handleSave()}
           className="bg-gradient-to-r mt-3 hover:bg-gradient-to-l from-green-600 to-lime-600 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150"
         >
           Save
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

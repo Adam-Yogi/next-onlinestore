@@ -32,8 +32,16 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
           >
             {title}
           </h2>
-          <p className=" md:text-lg group-hover:animate-pulse text-gray-300 group-hover:text-white">
-            {available <= 5 ? `${available} left` : 'Tersedia'}
+          <p
+            className={`${available == 0 ? 'text-red-400' : ''} ${
+              available <= 5 && available > 0 && 'animate-pulse'
+            } md:text-lg group-hover:animate-pulse text-gray-300 group-hover:text-white`}
+          >
+            {available <= 5 ? (
+              <>{available == 0 ? 'Kosong' : `${available} left`}</>
+            ) : (
+              'Tersedia'
+            )}
           </p>
           <p className="font-semibold text-xl md:text-xl py-1 opacity-90 group-hover:opacity-100 ">
             Rp{price}

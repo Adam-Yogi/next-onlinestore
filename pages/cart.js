@@ -69,14 +69,7 @@ const cart = () => {
                 })}
               </>
             ) : (
-              <div className="flex flex-col gap-2 h-screen text-2xl font-bold text-white w-full justify-center items-center">
-                <button
-                  onClick={() => handleLoad()}
-                  className="bg-indigo-400 hover:bg-indigo-600 flex gap-2 text-white rounded-lg p-3 font-semibold shadow-2xl"
-                >
-                  Load Cart <RefreshIcon className="w-10" />
-                </button>
-              </div>
+              ''
             )}
           </div>
           <div className="grid md:gap-3 md:bg-gradient-to-b md:from-black bg-opacity-60 md:p-8 md:rounded-lg md:shadow-xl  w-100 my-2 gap-1">

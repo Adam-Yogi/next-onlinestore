@@ -4,7 +4,7 @@ import userAvatar from '../../public/images/user.webp';
 import { Context } from '../../store/AppContext';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import { ArrowLeftIcon } from '@heroicons/react/solid';
+import { ArrowLeftIcon, RefreshIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 
 const profile = () => {
@@ -15,8 +15,14 @@ const profile = () => {
   const [newPassword, setNewPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [selectedImage, setSelectedImage] = useState('');
+  const [showLoading, setShowLoading] = useState(false);
 
   const uploadImage = async () => {
+    if (selectedImage == '') {
+      alert('choose image first');
+      return null;
+    }
+    setShowLoading(true);
     const formData = new FormData();
     formData.append('image', selectedImage);
 
@@ -31,9 +37,9 @@ const profile = () => {
       opts
     );
     const data = await res.json();
-    console.log(data.data.url);
-    console.log(store.user.profile_pic);
+
     await actions.updateProfilePic(data.data.url);
+    setShowLoading(false);
     router.reload();
   };
 
@@ -84,15 +90,19 @@ const profile = () => {
                     setSelectedImage(event.target.files[0]);
                   }}
                 />
-                <button
-                  className={`${
-                    selectedImage != '' &&
-                    'bg-blue-400 font-semibold text-white hover:border-2 hover:border-indigo-300'
-                  } bg-blue-200 rounded-md p-2 text-black`}
-                  onClick={uploadImage}
-                >
-                  Upload
-                </button>
+                {showLoading ? (
+                  <RefreshIcon className="animate-spin w-8" />
+                ) : (
+                  <button
+                    className={`${
+                      selectedImage != '' &&
+                      'bg-blue-400 font-semibold text-white hover:border-2 hover:border-indigo-300'
+                    } bg-blue-200 rounded-md p-2 text-black`}
+                    onClick={uploadImage}
+                  >
+                    Upload
+                  </button>
+                )}
               </div>
               <div className="md:row-span-2 flex flex-col items-center md:place-self-center p-3 md:px-3">
                 <h3 className="font-bold text-xl uppercase">

@@ -90,7 +90,9 @@ const OrderAddressForm = ({ liftStateUp, closeModal }) => {
           id="province"
           onChange={(e) => handleProvinceChange(e)}
         >
-          <option value="">-</option>
+          <option value="" selected disabled hidden>
+            Pilih Provinsi
+          </option>
           {cityProvince.map((item, index) => (
             <option key={index} value={`${item.province_id},${item.province}`}>
               {item.province}
@@ -108,7 +110,9 @@ const OrderAddressForm = ({ liftStateUp, closeModal }) => {
           id="city"
           onChange={(e) => handleCityChange(e)}
         >
-          <option value="">-</option>
+          <option value="" selected disabled hidden>
+            Pilih Kota
+          </option>
           {cityList.map((item, index) => (
             <option key={index} value={`${item.city_id},${item.city_name}`}>
               {item.type} {item.city_name}
