@@ -5,6 +5,7 @@ import { useEffect, useContext, useState } from 'react';
 import { Context } from '../store/AppContext';
 import Image from 'next/image';
 import hero from '../public/images/hero.jpg';
+import mode from '../mode';
 
 export default function Home(props) {
   // const { store, actions } = useContext(Context);
@@ -48,9 +49,9 @@ export default function Home(props) {
     </LayoutNav>
   );
 }
-
+// http://127.0.0.1:5000
 export async function getServerSideProps(context) {
-  const request = await fetch('http://127.0.0.1:5000/books').then((res) =>
+  const request = await fetch(`${mode.backend_url_ip}books`).then((res) =>
     res.json()
   );
 

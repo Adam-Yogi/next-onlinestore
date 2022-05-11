@@ -111,7 +111,7 @@ const Nav = () => {
                 <Link href="/order" role="button">
                   <div className="relative flex hover:animate-bounce">
                     <ClipboardListIcon className="w-8 flex-1" />
-                    {Object.keys(store.userOrder).length !== 0 && (
+                    {store.userOrder.length !== 0 && (
                       <span
                         className={`absolute right-0 top-0 rounded-full ${
                           store.userOrder.status == 'settlement'

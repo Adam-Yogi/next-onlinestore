@@ -6,6 +6,7 @@ import { useState, useEffect, useContext } from 'react';
 import CartModal from '../components/CartModal';
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { Context } from '../store/AppContext';
+import mode from '../mode';
 
 const Details = (props) => {
   // const [bookDetails, setBookDetails] = useState({});
@@ -138,8 +139,8 @@ export default Details;
 
 export async function getServerSideProps(context) {
   const [requestDetail, requestOther] = await Promise.all([
-    fetch(`http://127.0.0.1:5000/details?id=${context.query.id}`),
-    fetch(`http://127.0.0.1:5000/books`),
+    fetch(`${mode.backend_url_ip}/details?id=${context.query.id}`),
+    fetch(`${mode.backend_url_ip}/books`),
   ]);
   const [resDetail, resOther] = await Promise.all([
     requestDetail.json(),

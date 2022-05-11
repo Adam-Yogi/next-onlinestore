@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import mode from '../mode';
 
 const getState = ({ getStore, getActions, setStore }) => {
   const router = useRouter();
@@ -11,7 +12,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       userCart: { data: [], totalQuantity: 0, totalHarga: 0 },
       userCheckoutItems: [],
       totalQuantity: 0,
-      userOrder: {},
+      userOrder: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -40,7 +41,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:5000/login', opts);
+          const res = await fetch(
+            `${mode.backend_url}/login`,
+
+            opts
+          );
           if (res.status !== 200) {
             alert('wrong password or username');
             return false;
@@ -66,7 +71,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         try {
-          const res = await fetch('http://localhost:5000/getuser', opts);
+          const res = await fetch(
+            `${mode.backend_url}/getuser`,
+
+            opts
+          );
           if (res.status !== 200) {
             return false;
           }
@@ -94,7 +103,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:5000/register', opts);
+          const res = await fetch(
+            `${mode.backend_url}/register`,
+
+            opts
+          );
           if (res.status !== 200) {
             alert('user already exist');
             return false;
@@ -124,7 +137,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:5000/updateuser', opts);
+          const res = await fetch(`${mode.backend_url}/updateuser`, opts);
           if (res.status !== 200) {
             alert('there was an error updating');
             return false;
@@ -150,10 +163,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch(
-            'http://localhost:5000/updateprofilepic',
-            opts
-          );
+          const res = await fetch(`${mode.backend_url}/updateprofilepic`, opts);
           if (res.status !== 200) {
             alert('there was an error updating');
             return false;
@@ -171,7 +181,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: 'GET',
         };
         try {
-          const res = await fetch('http://localhost:5000/books', opts);
+          const res = await fetch(`${mode.backend_url}/books`, opts);
           const data = await res.json();
           setStore({ books: data });
         } catch (error) {
@@ -190,7 +200,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         try {
-          const res = await fetch('http://localhost:5000/userproduct', opts);
+          const res = await fetch(`${mode.backend_url}/userproduct`, opts);
           const data = await res.json();
 
           setStore({ userBooks: data });
@@ -211,7 +221,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch(`http://localhost:5000/deleteproduct`, opts);
+          const res = await fetch(`${mode.backend_url}/deleteproduct`, opts);
           if (res.status !== 200) {
             console.log(res.status);
             alert('there was an error updating');
@@ -243,7 +253,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:5000/addproduct', opts);
+          const res = await fetch(`${mode.backend_url}/addproduct`, opts);
           if (res.status !== 200) {
             alert('error adding new product');
             return false;
@@ -282,7 +292,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch(`http://localhost:5000/updateproduct`, opts);
+          const res = await fetch(`${mode.backend_url}/updateproduct`, opts);
           if (res.status !== 200) {
             alert('there was an error updating');
             return false;
@@ -309,7 +319,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch(`http://localhost:5000/addCartItem`, opts);
+          const res = await fetch(`${mode.backend_url}/addCartItem`, opts);
           if (res.status !== 200) {
             alert('there was an error adding to cart');
             return false;
@@ -334,7 +344,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         try {
-          const res = await fetch('http://localhost:5000/getCartItem', opts);
+          const res = await fetch(`${mode.backend_url}/getCartItem`, opts);
           const data = await res.json();
 
           setStore({
@@ -359,7 +369,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch('http://localhost:5000/delCartItem', opts);
+          const res = await fetch(`${mode.backend_url}/delCartItem`, opts);
           const data = await res.json();
           alert(data.msg);
           router.reload();
@@ -392,7 +402,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch(`http://localhost:5000/updateaddress`, opts);
+          const res = await fetch(`${mode.backend_url}/updateaddress`, opts);
           if (res.status !== 200) {
             alert('there was an error updating');
             return false;
@@ -418,7 +428,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         try {
-          const res = await fetch('http://localhost:5000/checkout', opts);
+          const res = await fetch(`${mode.backend_url}/checkout`, opts);
           const data = await res.json();
 
           data.map((seller) => {
@@ -450,14 +460,18 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const res = await fetch(`http://localhost:5000/buatorder`, opts);
+          const res = await fetch(`${mode.backend_url}/buatorder`, opts);
           if (res.status !== 200) {
             alert('there was an error placing order');
             return false;
           }
           const data = await res.json();
-          alert(data.msg);
-          router.push('/order');
+
+          router.push(
+            `/pembayaran?bank=${data[0].bank}&totalHarga=${data[0].totalHarga}&vanumber=${data[0].vanumber}&orderID=${data[0].orderID}`,
+            `pembayaran/order-${data[0].orderID}`
+          );
+          alert('success making order');
           return true;
         } catch (error) {
           console.error('there was an error placing order');
@@ -475,15 +489,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         };
         try {
-          const res = await fetch(`http://localhost:5000/Order`, opts);
-          if (res.status !== 200) {
-            alert('there was an error getting order');
-            return false;
-          }
+          const res = await fetch(`${mode.backend_url}/Order`, opts);
+
           const data = await res.json();
 
           setStore({
-            userOrder: data[0] ? data[0] : {},
+            userOrder: data.length > 0 ? data : [],
           });
           return true;
         } catch (error) {
@@ -504,15 +515,13 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
         try {
           const res = await fetch(
-            `http://localhost:5000/cekstatuspembayaran`,
+            `${mode.backend_url}/cekstatuspembayaran`,
             opts
           );
-          if (res.status !== 200) {
-            alert('there was an error checking payment status');
-            return false;
-          }
+
           const data = await res.json();
-          console.log(data.msg);
+          alert(data.msg);
+          router.reload();
           return true;
         } catch (error) {
           console.error('there was an error checking payment status');

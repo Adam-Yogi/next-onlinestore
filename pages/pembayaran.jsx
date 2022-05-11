@@ -3,15 +3,8 @@ import { useState, useEffect, useContext } from 'react';
 import { Context } from '../store/AppContext';
 import { BCA, BNI, BRI } from '../components/CaraBayar';
 
-const payment = () => {
-  const [userOrder, setUserOrder] = useState({});
-  const { store, actions } = useContext(Context);
-
-  useEffect(() => {
-    actions.getOrder().then(() => {
-      setUserOrder(store.userOrder);
-    });
-  }, []);
+const payment = (props) => {
+  const userOrder = props.query;
   const renderCaraBayar = () => {
     if (userOrder.bank == 'bca') return <BCA vanumber={userOrder.vanumber} />;
     else if (userOrder.bank == 'bni')
@@ -29,10 +22,10 @@ const payment = () => {
           <p className="text-4xl lg:text-5xl  place-self-center text-white font-bold">
             Total Tagihan:
             <br />
-            Rp439000.00
+            Rp{userOrder.totalHarga}.00
           </p>
           <p className="text-white place-self-center">
-            Expires in : 23.59 20-04-2022
+            Order ID : {userOrder.orderID}
           </p>
         </div>
         <div>{renderCaraBayar()}</div>
@@ -42,3 +35,9 @@ const payment = () => {
 };
 
 export default payment;
+
+export async function getServerSideProps(context) {
+  const { query } = context;
+
+  return { props: { query } };
+}
