@@ -22,7 +22,7 @@ const payment = (props) => {
           <p className="text-4xl lg:text-5xl  place-self-center text-white font-bold">
             Total Tagihan:
             <br />
-            Rp{userOrder.totalHarga}.00
+            Rp{userOrder.totalHarga}
           </p>
           <p className="text-white place-self-center">
             Order ID : {userOrder.orderID}

@@ -3,6 +3,7 @@ import { ArrowLeftIcon } from '@heroicons/react/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import StarRatings from 'react-star-ratings';
 
 const Modals = ({
   isShown,
@@ -13,8 +14,8 @@ const Modals = ({
   available,
   dateAdded,
   imgUrl,
+  rating,
 }) => {
-  const router = useRouter();
   return isShown ? (
     <div
       className="p-4 fixed top-0 left-0 z-20 w-full h-full text-white bg-gradient-to-b;
@@ -40,6 +41,17 @@ const Modals = ({
         </div>
         <div className="flex md:gap-2 flex-col md:self-center">
           <h1 className="font-bold md:text-5xl text-3xl">{title}</h1>
+          <StarRatings
+            rating={Number(rating)}
+            starRatedColor="#e3c654"
+            starDimension="20px"
+            isSelectable="false"
+            isAggregateRating="true"
+            starHoverColor="yellow"
+            starSpacing="1px"
+            numberOfStars={5}
+            name="rating"
+          />
           <p className={`text-lg md:text-xl text-[#d60ac9] animate-pulse`}>
             {available <= 5 ? (
               <>{available == 0 ? 'Kosong' : `${available} left`}</>

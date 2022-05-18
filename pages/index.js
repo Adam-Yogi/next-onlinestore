@@ -36,6 +36,7 @@ export default function Home(props) {
               price={book.harga}
               dateAdded={book.tgl_input}
               available={book.jumlah}
+              rating={book.rating}
             />
           ))}
         </Container>

@@ -21,7 +21,7 @@ const OrderItem = ({ userOrder }) => {
   };
 
   return (
-    <div className="bg-black border-2 border-purple-200 bg-opacity-70 shadow-lg rounded-md backdrop-blur-lg backdrop-filter place-self-center grid grid-cols-3 items-center justify-evenly flex-col p-3">
+    <div className="bg-black min-w-full  bg-opacity-70 shadow-lg sm:rounded-md backdrop-blur-lg backdrop-filter place-self-center grid grid-cols-3 items-center justify-evenly flex-col p-4">
       <div className="">
         <p className="text-xl md:text-2xl lg:text-3xl font-bold font-roboto">
           Total Tagihan: <br /> <span>Rp{userOrder.totalHarga}</span>
@@ -48,13 +48,19 @@ const OrderItem = ({ userOrder }) => {
         )}
       </div>
       <div className="flex gap-2 md:gap-3 justify-evenly items-center">
-        {userOrder.status == 'pending' && (
+        {userOrder.status == 'pending' ? (
           <Link
             href={`/pembayaran?bank=${userOrder.bank}&totalHarga=${userOrder.totalHarga}&vanumber=${userOrder.vanumber}&orderID=${userOrder.orderID}`}
             as={`pembayaran/order-${userOrder.orderID}`}
           >
-            <button className="md:text-4xl bg-gradient-to-r hover:bg-gradient-to-l from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
+            <button className="md:text-4xl bg-gradient-to-r hover:bg-gradient-to-l min-w-fit from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold text-xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
               Bayar
+            </button>
+          </Link>
+        ) : (
+          <Link href={`/rating?orderID=${userOrder.orderID}`}>
+            <button className="md:text-3xl bg-gradient-to-r hover:bg-gradient-to-l from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold min-w-fit border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
+              Beri Penilaian
             </button>
           </Link>
         )}

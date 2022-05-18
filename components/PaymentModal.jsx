@@ -6,13 +6,17 @@ import gopaylogo from '../public/images/gopaylogo.png';
 import BankRadioBtn from './BankRadioBtn';
 import { useState, useContext } from 'react';
 import { Context } from '../store/AppContext';
+import { RefreshIcon } from '@heroicons/react/outline';
 
 const PaymentModals = ({ isShown, closeModal, totalHarga }) => {
   const { store, actions } = useContext(Context);
   const handleClick = () => {
+    setShowLoading(true);
     actions.makeOrder(Number(totalHarga), selectedPayment);
+    setShowLoading(false);
   };
   const [selectedPayment, setSelectedPayment] = useState('');
+  const [showLoading, setShowLoading] = useState(false);
   const liftBankValue = (bank) => {
     setSelectedPayment(bank);
   };
@@ -29,11 +33,12 @@ const PaymentModals = ({ isShown, closeModal, totalHarga }) => {
         <p className="text-3xl text-center font-bold">Pilih Pembayaran</p>
         <div className="place-self-center justify-center flex flex-col gap-3">
           <BankRadioBtn valueLifter={liftBankValue} />
-
+          {showLoading && <RefreshIcon className="w-5 animate-spin" />}
           <button
             onClick={() => {
               handleClick();
             }}
+            disabled={showLoading}
             className="md:text-4xl bg-gradient-to-r hover:bg-gradient-to-l from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold text-2xl border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150"
           >
             Bayar

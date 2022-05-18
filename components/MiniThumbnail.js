@@ -11,6 +11,7 @@ const MiniThumbnail = ({
   price,
   dateAdded,
   available,
+  rating,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
@@ -55,6 +56,7 @@ const MiniThumbnail = ({
         available={available}
         price={price}
         bookId={bookId}
+        rating={rating}
       ></Modals>
     </>
   );

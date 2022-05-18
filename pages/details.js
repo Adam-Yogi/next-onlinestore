@@ -7,6 +7,7 @@ import CartModal from '../components/CartModal';
 import { ArrowLeftIcon } from '@heroicons/react/outline';
 import { Context } from '../store/AppContext';
 import mode from '../mode';
+import StarRatings from 'react-star-ratings';
 
 const Details = (props) => {
   // const [bookDetails, setBookDetails] = useState({});
@@ -56,6 +57,17 @@ const Details = (props) => {
               >
                 {bookDetails.nama}
               </h1>
+              <StarRatings
+                rating={Number(bookDetails.rating)}
+                starRatedColor="#e3c654"
+                starDimension="25px"
+                isSelectable="false"
+                isAggregateRating="true"
+                starHoverColor="yellow"
+                starSpacing="1px"
+                numberOfStars={5}
+                name="rating"
+              />
               <p className="lg:text-lg text-gray-100">
                 by {bookDetails.owner && bookDetails.owner.toUpperCase()}
               </p>
@@ -108,6 +120,7 @@ const Details = (props) => {
                 title={book.nama}
                 price={book.harga}
                 available={book.jumlah}
+                rating={book.rating}
               />
             ))}
           </div>

@@ -13,6 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
       userCheckoutItems: [],
       totalQuantity: 0,
       userOrder: [],
+      sellerOrder: [],
+      buyerRatingProducts: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -81,7 +83,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await res.json();
 
-          setStore({ user: data[0] });
+          setStore({ user: data ? data[0] : {} });
 
           return true;
         } catch (error) {
@@ -499,6 +501,85 @@ const getState = ({ getStore, getActions, setStore }) => {
           return true;
         } catch (error) {
           console.error('there was an error getting order');
+        }
+      },
+      getSellerOrder: async () => {
+        const store = getStore();
+        const actions = getActions();
+        actions.syncTokenFromSessionStore();
+        const opts = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+        };
+        try {
+          const res = await fetch(`${mode.backend_url}/OrderSeller`, opts);
+
+          const data = await res.json();
+
+          setStore({
+            sellerOrder: data.length > 0 ? data : [],
+          });
+          return true;
+        } catch (error) {
+          console.error('there was an error getting seller order');
+        }
+      },
+      getOrderById: async (orderID) => {
+        const store = getStore();
+        const actions = getActions();
+        actions.syncTokenFromSessionStore();
+        const opts = {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            orderID: orderID,
+          }),
+        };
+        try {
+          const res = await fetch(`${mode.backend_url}/OrderById`, opts);
+
+          const data = await res.json();
+          console.log(data);
+          setStore({
+            buyerRatingProducts: data.length > 0 ? data : [],
+          });
+        } catch (error) {
+          console.error('there was an error getting products data');
+        }
+      },
+      rateProduct: async (orderID, productID, rate) => {
+        const store = getStore();
+        const opts = {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            orderID: orderID,
+            productID: productID,
+            rate: rate,
+          }),
+        };
+        try {
+          const res = await fetch(`${mode.backend_url}/rating`, opts);
+          if (res.status !== 200) {
+            alert('there was an error rating product');
+            return false;
+          }
+          const data = await res.json();
+
+          alert(data.msg);
+          router.reload();
+          return true;
+        } catch (error) {
+          console.error('there was an error rating product');
         }
       },
       cekStatus: async (orderID) => {

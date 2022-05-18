@@ -1,13 +1,22 @@
-import bookCover from '../public/images/book.jpeg';
 import Image from 'next/image';
 import { useState } from 'react';
 import Modals from './Modals';
+import StarRatings from 'react-star-ratings';
 
-const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
+const Thumbnail = ({
+  bookId,
+  imgUrl,
+  title,
+  price,
+  dateAdded,
+  available,
+  rating,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(false);
   };
+
   return (
     <>
       <div
@@ -24,6 +33,7 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
             objectFit="contain"
           />
         </div>
+
         <div className="flex flex-col">
           <h2
             className={`${
@@ -32,6 +42,21 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
           >
             {title}
           </h2>
+          <div className="flex items-end gap-1">
+            <StarRatings
+              rating={Number(rating)}
+              starRatedColor="#e3c654"
+              starDimension="17px"
+              isSelectable="false"
+              isAggregateRating="true"
+              starHoverColor="yellow"
+              starSpacing="1px"
+              numberOfStars={5}
+              name="rating"
+            />
+            <p className="text-sm text-gray-300">{rating}</p>
+          </div>
+
           <p
             className={`${available == 0 ? 'text-red-400' : ''} ${
               available <= 5 && available > 0 && 'animate-pulse'
@@ -61,6 +86,7 @@ const Thumbnail = ({ bookId, imgUrl, title, price, dateAdded, available }) => {
         available={available}
         price={price}
         bookId={bookId}
+        rating={rating}
       ></Modals>
     </>
   );
