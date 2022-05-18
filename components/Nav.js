@@ -9,10 +9,11 @@ import {
   ClipboardListIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  InboxInIcon,
 } from '@heroicons/react/outline';
 import { Context } from '../store/AppContext';
 import { useContext, useState } from 'react';
-import logo from '../public/images/logob.svg';
+import logo from '../public/images/logo.png';
 
 const Nav = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const Nav = () => {
 
   return (
     <nav className=" shadow-2xl">
-      <div className="grid relative grid-rows-1 grid-cols-3 lg:flex lg:gap-0 bg-gradient-to-tl from-indigo-900 to-indigo-800 text-white lg:justify-between items-center lg:items-center px-3 py-2 lg:py-3 sm:px-10 ">
+      <div className="grid relative grid-rows-1 grid-cols-4 md:grid-cols-3 lg:flex lg:gap-0 bg-gradient-to-tl from-indigo-900 to-indigo-800 text-white lg:justify-between items-center lg:items-center px-3 py-2 lg:py-3 sm:px-10 ">
         <div
           className=" lg:hidden cursor-pointer"
           onClick={() => {
@@ -36,9 +37,9 @@ const Nav = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-center min-h-full md:scale-120">
+        <div className="flex items-center justify-center min-h-full md:scale-120 col-span-2 md:col-span-1">
           <Link href="/">
-            <Image src={logo} width={135} height={60} />
+            <Image src={logo} width={135} height={60} objectFit="fill" />
           </Link>
         </div>
 
@@ -80,7 +81,7 @@ const Nav = () => {
             ''
           )}
         </div>
-        <div className="relative place-self-end h-12 flex  items-center space-x-5">
+        <div className=" relative place-self-end h-12 flex  items-center space-x-5">
           {store.token && store.token != '' && store.token != undefined ? (
             <>
               <div
@@ -90,9 +91,9 @@ const Nav = () => {
                 }}
               >
                 {showCart ? (
-                  <ChevronUpIcon className="h-8 w-8  col-start-1" />
+                  <ChevronUpIcon className="w-8  col-start-1" />
                 ) : (
-                  <ChevronDownIcon className="h-8 w-8 col-start-1" />
+                  <ChevronDownIcon className="w-8 col-start-1" />
                 )}
               </div>
               <div
@@ -122,6 +123,15 @@ const Nav = () => {
                         ~
                       </span>
                     )}
+                  </div>
+                </Link>
+                <Link
+                  href="/penjualan
+                "
+                  role="button"
+                >
+                  <div className="relative flex hover:animate-bounce">
+                    <InboxInIcon className="w-8 flex-1" />
                   </div>
                 </Link>
               </div>

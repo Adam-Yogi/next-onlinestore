@@ -16,7 +16,7 @@ const penjualan = () => {
     <>
       <LayoutNav>
         <div className="w-full h-full justify-center items-center flex flex-col text-white gap-3">
-          {1 !== 0 ? (
+          {sellerOrder.length !== 0 ? (
             <>
               <h1 className="text-5xl lg:text-8xl font-bold text-center">
                 Penjualan
