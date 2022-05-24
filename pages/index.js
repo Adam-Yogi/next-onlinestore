@@ -37,6 +37,7 @@ export default function Home(props) {
               dateAdded={book.tgl_input}
               available={book.jumlah}
               rating={book.rating}
+              totalPembeli={book.totalPembeli}
             />
           ))}
         </Container>

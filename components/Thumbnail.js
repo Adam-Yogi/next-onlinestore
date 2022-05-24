@@ -11,6 +11,7 @@ const Thumbnail = ({
   dateAdded,
   available,
   rating,
+  totalPembeli,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
@@ -43,18 +44,24 @@ const Thumbnail = ({
             {title}
           </h2>
           <div className="flex items-end gap-1">
-            <StarRatings
-              rating={Number(rating)}
-              starRatedColor="#e3c654"
-              starDimension="17px"
-              isSelectable="false"
-              isAggregateRating="true"
-              starHoverColor="yellow"
-              starSpacing="1px"
-              numberOfStars={5}
-              name="rating"
-            />
-            <p className="text-sm text-gray-300">{rating}</p>
+            {totalPembeli > 0 ? (
+              <>
+                <StarRatings
+                  rating={Number(rating)}
+                  starRatedColor="#e3c654"
+                  starDimension="17px"
+                  isSelectable="false"
+                  isAggregateRating="true"
+                  starHoverColor="yellow"
+                  starSpacing="1px"
+                  numberOfStars={5}
+                  name="rating"
+                />
+                <p className="text-sm text-gray-300">{rating}</p>
+              </>
+            ) : (
+              <p className="text-gray-300">Not Rated Yet</p>
+            )}
           </div>
 
           <p
@@ -87,6 +94,7 @@ const Thumbnail = ({
         price={price}
         bookId={bookId}
         rating={rating}
+        totalPembeli={totalPembeli}
       ></Modals>
     </>
   );

@@ -57,17 +57,25 @@ const Details = (props) => {
               >
                 {bookDetails.nama}
               </h1>
-              <StarRatings
-                rating={Number(bookDetails.rating)}
-                starRatedColor="#e3c654"
-                starDimension="25px"
-                isSelectable="false"
-                isAggregateRating="true"
-                starHoverColor="yellow"
-                starSpacing="1px"
-                numberOfStars={5}
-                name="rating"
-              />
+              {bookDetails.totalPembeli > 0 ? (
+                <>
+                  <StarRatings
+                    rating={Number(bookDetails.rating)}
+                    starRatedColor="#e3c654"
+                    starDimension="25px"
+                    isSelectable="false"
+                    isAggregateRating="true"
+                    starHoverColor="yellow"
+                    starSpacing="1px"
+                    numberOfStars={5}
+                    name="rating"
+                  />
+                  <p className="text-sm text-gray-300">{bookDetails.rating}</p>
+                </>
+              ) : (
+                <p className="text-gray-300">Not Rated Yet</p>
+              )}
+
               <p className="lg:text-lg text-gray-100">
                 by {bookDetails.owner && bookDetails.owner.toUpperCase()}
               </p>
@@ -80,6 +88,13 @@ const Details = (props) => {
                 } text-sm text-white `}
               >
                 Stock : {bookDetails.jumlah > 0 ? bookDetails.jumlah : 'KOSONG'}
+              </p>
+              <p
+                className={`text-sm ${
+                  bookDetails.totalPembeli == 0 && 'hidden'
+                }`}
+              >
+                Telah dibeli oleh {bookDetails.totalPembeli} orang
               </p>
             </div>
             <div className="">
@@ -121,6 +136,7 @@ const Details = (props) => {
                 price={book.harga}
                 available={book.jumlah}
                 rating={book.rating}
+                totalPembeli={book.totalPembeli}
               />
             ))}
           </div>

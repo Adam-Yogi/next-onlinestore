@@ -608,6 +608,33 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error('there was an error checking payment status');
         }
       },
+      finishOrder: async (orderID) => {
+        const store = getStore();
+        const opts = {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${store.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            orderID: orderID,
+          }),
+        };
+        try {
+          const res = await fetch(`${mode.backend_url}/orderFinish`, opts);
+          if (res.status !== 200) {
+            alert('there was an error');
+            return false;
+          }
+          const data = await res.json();
+
+          alert(data.msg);
+          router.reload();
+          return true;
+        } catch (error) {
+          console.error('there was an error');
+        }
+      },
     },
   };
 };

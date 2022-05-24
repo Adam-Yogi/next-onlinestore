@@ -15,6 +15,7 @@ const Modals = ({
   dateAdded,
   imgUrl,
   rating,
+  totalPembeli,
 }) => {
   return isShown ? (
     <div
@@ -41,17 +42,26 @@ const Modals = ({
         </div>
         <div className="flex md:gap-2 flex-col md:self-center">
           <h1 className="font-bold md:text-5xl text-3xl">{title}</h1>
-          <StarRatings
-            rating={Number(rating)}
-            starRatedColor="#e3c654"
-            starDimension="20px"
-            isSelectable="false"
-            isAggregateRating="true"
-            starHoverColor="yellow"
-            starSpacing="1px"
-            numberOfStars={5}
-            name="rating"
-          />
+          {totalPembeli > 0 ? (
+            <>
+              <StarRatings
+                rating={Number(rating)}
+                starRatedColor="#e3c654"
+                starDimension="20px"
+                isSelectable="false"
+                isAggregateRating="true"
+                starHoverColor="yellow"
+                starSpacing="1px"
+                numberOfStars={5}
+                name="rating"
+              />
+              <p className="text-sm text-gray-300">{rating}</p>
+            </>
+          ) : (
+            <p className="text-gray-300">Not Rated Yet</p>
+          )}
+
+          <p>Terjual : {totalPembeli || 0}</p>
           <p className={`text-lg md:text-xl text-[#d60ac9] animate-pulse`}>
             {available <= 5 ? (
               <>{available == 0 ? 'Kosong' : `${available} left`}</>

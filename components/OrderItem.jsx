@@ -13,11 +13,21 @@ const OrderItem = ({ userOrder }) => {
       setShowLoading(false);
     });
   };
+
+  const handleOrderFinish = () => {
+    if (confirm('Anda yakin pesanan selesai?')) {
+      setShowLoading(true);
+      actions.finishOrder(userOrder.orderID).then(() => {
+        setShowLoading(false);
+      });
+    }
+  };
   const statusTranslate = (status) => {
     if (status == 'pending') return 'Menunggu Pembayaran';
-    else if (status == 'settlement') return 'Pembayaran Berhasil';
-    else if (status == 'expire') return 'Expired';
-    else if (status == 'failure') return 'Transaksi Gagal';
+    else if (status === 'settlement') return 'Pembayaran Berhasil';
+    else if (status === 'expire') return 'Expired';
+    else if (status === 'failure') return 'Transaksi Gagal';
+    else if (status === 'finished') return 'Transaksi Selesai';
   };
 
   return (
@@ -41,7 +51,9 @@ const OrderItem = ({ userOrder }) => {
               userOrder.status == 'settlement' && 'bg-green-400'
             } ${userOrder.status == 'expire' && 'bg-red-400'} ${
               userOrder.status == 'failure' && 'bg-red-500'
-            } p-1 text-xs lg:text-lg rounded-lg`}
+            } ${
+              userOrder.status === 'finished' && 'bg-blue-400'
+            }p-1 text-xs lg:text-lg rounded-lg`}
           >
             {statusTranslate(userOrder.status)}
           </span>
@@ -58,13 +70,26 @@ const OrderItem = ({ userOrder }) => {
             </button>
           </Link>
         ) : (
+          <>
+            {userOrder.status !== 'pending' && userOrder.status !== 'finished' && (
+              <button
+                onClick={() => {
+                  handleOrderFinish();
+                }}
+                className="md:text-3xl bg-gradient-to-r hover:bg-gradient-to-l from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold min-w-fit border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150"
+              >
+                Selesai
+              </button>
+            )}
+          </>
+        )}
+        {userOrder.status === 'finished' && (
           <Link href={`/rating?orderID=${userOrder.orderID}`}>
-            <button className="md:text-3xl bg-gradient-to-r hover:bg-gradient-to-l from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold min-w-fit border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
-              Beri Penilaian
+            <button className="md:text-lg bg-gradient-to-r hover:bg-gradient-to-l min-w-fit from-purple-600 to-indigo-600 p-2 rounded-lg text-white font-roboto font-bold text-md border-2 border-transparent hover:border-2 border-opacity-80 hover:border-purple-100 transition-all ease-in-out duration-150">
+              Beri penilaian
             </button>
           </Link>
         )}
-
         <button
           onClick={() => {
             handleCekStatus();
