@@ -6,21 +6,11 @@ import { useState } from 'react';
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/outline';
 import { useContext } from 'react';
 import { Context } from '../store/AppContext';
-const CartModal = ({
-  isShown,
-  bookId,
-  title,
-  price,
-  available,
-  dateAdded,
-  imgUrl,
-}) => {
+const CartModal = ({ isShown, bookId, title, price, available, imgUrl }) => {
   const { store, actions } = useContext(Context);
   const router = useRouter();
   const handleAddToCart = async () => {
     await actions.addToCart(bookId, quantity);
-    console.log('id buku: ' + bookId);
-    console.log('quantity order: ' + quantity);
   };
   const handlePlus = () => {
     if (quantity < available) {

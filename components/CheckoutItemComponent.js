@@ -37,7 +37,7 @@ const CheckoutItemComponent = ({
   //   }
   // }, [sellerCityID, buyerLocation, kurir]);
 
-  const handleOngkir = async () => {
+  const handleOngkir = async (kurir = { kurir }) => {
     if (
       buyerLocation == undefined ||
       buyerLocation == null ||
@@ -62,16 +62,24 @@ const CheckoutItemComponent = ({
       setPilihOngkir();
       setTipeOngkir([]);
       setShowLoading(true);
+
       const res = await fetch(
         `http://localhost:5000/ongkir?destination=${buyerLocation}&origin=${sellerCityID}&courier=${kurir}&weight=${CheckoutItem.totalBerat}`,
         opts
       );
+
       const data = await res.json();
 
       setTipeOngkir(data.rajaongkir.results[0].costs);
       setShowLoading(false);
       setLoading(false);
     }
+  };
+
+  const handleChange = (e) => {
+    setKurir(e.target.value);
+
+    handleOngkir(e.target.value);
   };
 
   return (
@@ -111,7 +119,7 @@ const CheckoutItemComponent = ({
         <label className="block">Pilih Jasa Pengiriman:</label>
         <div className="py-1">
           <select
-            onChange={(e) => setKurir(e.target.value)}
+            onChange={(e) => handleChange(e)}
             className="text-black p-1 rounded-md shadow-sm"
           >
             <option value="" selected disabled hidden>
@@ -121,15 +129,6 @@ const CheckoutItemComponent = ({
             <option value="tiki">TIKI</option>
             <option value="pos">POS ID</option>
           </select>
-          <button
-            className="disabled:opacity-40 ml-1 p-1 bg-blue-400 rounded-md shadow-xl"
-            onClick={() => {
-              handleOngkir();
-            }}
-            disabled={kurir == ''}
-          >
-            Pilih Kurir
-          </button>
         </div>
         {!loading && tipeOngkir.length !== 0 ? (
           <div className="py-1">

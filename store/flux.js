@@ -307,7 +307,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error('there was an error updating');
         }
       },
-      addToCart: async (bookId, jumlahOrder) => {
+      addToCart: async (bookId, jumlahOrder, isBuyNow) => {
         const store = getStore();
         const opts = {
           method: 'POST',
@@ -327,8 +327,14 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await res.json();
-          alert(data.msg);
-          router.reload();
+
+          if (isBuyNow === 'buyNow') {
+            router.push('/checkout');
+          } else {
+            alert(data.msg);
+            router.push('/cart');
+          }
+
           return true;
         } catch (error) {
           console.error('there was an error adding to cart');

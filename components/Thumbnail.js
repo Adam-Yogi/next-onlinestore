@@ -95,7 +95,7 @@ const Thumbnail = ({
         bookId={bookId}
         rating={rating}
         totalPembeli={totalPembeli}
-      ></Modals>
+      />
     </>
   );
 };

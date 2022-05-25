@@ -17,6 +17,14 @@ const Details = (props) => {
   const bookDetails = props.resDetail[0];
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+  const handleBuyNow = async () => {
+    if (store.token && store.token != '' && store.token != undefined)
+      await actions.addToCart(bookDetails.productID, 1, 'buyNow');
+    else {
+      alert('please login or register first');
+      router.push('/login');
+    }
+  };
   // useEffect(async () => {
   //   const res = await fetch(
   //     `http://localhost:5000/details?id=${router.query.id}`
@@ -59,18 +67,29 @@ const Details = (props) => {
               </h1>
               {bookDetails.totalPembeli > 0 ? (
                 <>
-                  <StarRatings
-                    rating={Number(bookDetails.rating)}
-                    starRatedColor="#e3c654"
-                    starDimension="25px"
-                    isSelectable="false"
-                    isAggregateRating="true"
-                    starHoverColor="yellow"
-                    starSpacing="1px"
-                    numberOfStars={5}
-                    name="rating"
-                  />
-                  <p className="text-sm text-gray-300">{bookDetails.rating}</p>
+                  <p
+                    className={`text-xs text-gray-200 ${
+                      bookDetails.totalPembeli == 0 && 'hidden'
+                    }`}
+                  >
+                    Penilaian dari {bookDetails.totalPembeli} orang
+                  </p>
+                  <div>
+                    <StarRatings
+                      rating={Number(bookDetails.rating)}
+                      starRatedColor="#e3c654"
+                      starDimension="25px"
+                      isSelectable="false"
+                      isAggregateRating="true"
+                      starHoverColor="yellow"
+                      starSpacing="1px"
+                      numberOfStars={5}
+                      name="rating"
+                    />
+                    <p className="text-sm text-gray-300">
+                      {bookDetails.rating}
+                    </p>
+                  </div>
                 </>
               ) : (
                 <p className="text-gray-300">Not Rated Yet</p>
@@ -89,13 +108,6 @@ const Details = (props) => {
               >
                 Stock : {bookDetails.jumlah > 0 ? bookDetails.jumlah : 'KOSONG'}
               </p>
-              <p
-                className={`text-sm ${
-                  bookDetails.totalPembeli == 0 && 'hidden'
-                }`}
-              >
-                Telah dibeli oleh {bookDetails.totalPembeli} orang
-              </p>
             </div>
             <div className="">
               <p className="text-sm md:text-md overflow-scroll max-h-60 scrollbar-hide lg:text-xl">
@@ -111,6 +123,7 @@ const Details = (props) => {
             <div className="grid grid-cols-2 gap-4 items-center justify-center">
               <button
                 disabled={bookDetails.jumlah == 0}
+                onClick={() => handleBuyNow()}
                 className={`disabled:opacity-30 font-bold border-2 border-purple-600 hover:bg-purple-600 transition-all duration-150 ease-in-out rounded-lg p-2 text-purple-300 hover:text-purple-100 disabled:cursor-not-allowed md:text-lg`}
               >
                 Beli Sekarang
