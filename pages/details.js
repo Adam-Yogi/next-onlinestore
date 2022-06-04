@@ -18,9 +18,10 @@ const Details = (props) => {
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
   const handleBuyNow = async () => {
-    if (store.token && store.token != '' && store.token != undefined)
+    if (store.token && store.token != '' && store.token != undefined) {
       await actions.addToCart(bookDetails.productID, 1, 'buyNow');
-    else {
+      await actions.getCartItem();
+    } else {
       alert('please login or register first');
       router.push('/login');
     }
@@ -35,6 +36,7 @@ const Details = (props) => {
   // }, []);
 
   const handleAddToCart = () => {
+    console.log(bookDetails);
     if (store.token && store.token != '' && store.token != undefined)
       setShowModal(true);
     else {

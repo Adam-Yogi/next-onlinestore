@@ -58,14 +58,21 @@ const Nav = () => {
               HOME
             </p>
           </Link>
-          <p
+          <Link
             onClick={() => {
               setShowMenu(false);
             }}
-            className="cursor-pointer border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white"
+            href="/team"
           >
-            ABOUT
-          </p>
+            <p
+              onClick={() => {
+                setShowMenu(false);
+              }}
+              className="cursor-pointer border-b-2 border-opacity-0 hover:border-opacity-100 transition-all ease-in-out duration-200 border-white"
+            >
+              TEAM
+            </p>
+          </Link>
           {store.token && store.token != '' && store.token != undefined ? (
             <Link
               onClick={() => {

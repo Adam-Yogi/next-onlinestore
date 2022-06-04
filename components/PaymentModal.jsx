@@ -1,8 +1,5 @@
 import { ArrowLeftIcon } from '@heroicons/react/solid';
-import Image from 'next/image';
-import Link from 'next/link';
-import qrislogo from '../public/images/qrislogo.png';
-import gopaylogo from '../public/images/gopaylogo.png';
+
 import BankRadioBtn from './BankRadioBtn';
 import { useState, useContext } from 'react';
 import { Context } from '../store/AppContext';
@@ -10,9 +7,10 @@ import { RefreshIcon } from '@heroicons/react/outline';
 
 const PaymentModals = ({ isShown, closeModal, totalHarga }) => {
   const { store, actions } = useContext(Context);
-  const handleClick = () => {
+  const handleClick = async () => {
     setShowLoading(true);
-    actions.makeOrder(Number(totalHarga), selectedPayment);
+    await actions.makeOrder(Number(totalHarga), selectedPayment);
+    await actions.getCartItem();
     setShowLoading(false);
   };
   const [selectedPayment, setSelectedPayment] = useState('');

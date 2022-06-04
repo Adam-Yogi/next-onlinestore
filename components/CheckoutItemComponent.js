@@ -10,7 +10,7 @@ const CheckoutItemComponent = ({
   const [sellerCityID, setSellerCityID] = useState(CheckoutItem.idKota);
   // const [buyerCityID, setBuyerCityID] = useState(buyerLocation);
   const [kurir, setKurir] = useState('');
-  const [pilihOngkir, setPilihOngkir] = useState();
+  const [pilihOngkir, setPilihOngkir] = useState(0);
   const [tipeOngkir, setTipeOngkir] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
@@ -77,9 +77,13 @@ const CheckoutItemComponent = ({
   };
 
   const handleChange = (e) => {
+    handleOngkir(e.target.value);
     setKurir(e.target.value);
 
-    handleOngkir(e.target.value);
+    setPilihOngkir(() => {
+      totalOngkirCount(pilihOngkir, 0);
+      return 0;
+    });
   };
 
   return (
@@ -157,7 +161,7 @@ const CheckoutItemComponent = ({
           <>{showLoading && <RefreshIcon className="w-8 animate-spin" />}</>
         )}
 
-        {pilihOngkir != null && pilihOngkir != undefined ? (
+        {pilihOngkir != null && pilihOngkir != undefined && pilihOngkir != 0 ? (
           <>
             <p className="text-white">Berat : {CheckoutItem.totalBerat} gr</p>
             <p className="my-1 font-semibold text-white">
