@@ -6,8 +6,8 @@
   body {
     @apply bg-gradient-to-b;
 
-    @apply from-indigo-600;
-    @apply to-[#191c3a];
+    @apply from-[#282a3a];
+    @apply to-black;
   }
   h1,
   h2,

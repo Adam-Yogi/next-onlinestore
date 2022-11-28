@@ -23,7 +23,7 @@ const Nav = () => {
 
   return (
     <nav className=" shadow-2xl">
-      <div className="grid relative grid-rows-1 grid-cols-4 md:grid-cols-3 lg:flex lg:gap-0 bg-gradient-to-tl from-indigo-900 to-indigo-800 text-white lg:justify-between items-center lg:items-center px-3 py-2 lg:py-3 sm:px-10 ">
+      <div className="grid relative grid-rows-1 grid-cols-4 md:grid-cols-3 lg:flex lg:gap-0 bg-gradient-to-t from-[#c69749] to-[#735f32] text-white lg:justify-between items-center lg:items-center px-3 py-2 lg:py-3 sm:px-10 ">
         <div
           className=" lg:hidden cursor-pointer"
           onClick={() => {
@@ -46,7 +46,7 @@ const Nav = () => {
         <div
           className={`font-thin top-0 absolute ${
             showMenu ? 'left-0' : '-left-[100%]'
-          } transition-all ease-in-out duration-200 lg:static z-10 w-screen lg:w-100 p-3 row-start-2 col-span-3 flex space-x-12 sm:space-x-32 items-center grow justify-center tracking-widest bg-gradient-to-tl from-indigo-900 to-indigo-800 md:bg-transparent`}
+          } transition-all ease-in-out duration-200 lg:static z-10 w-screen lg:w-100 p-3 row-start-2 col-span-3 flex space-x-12 sm:space-x-32 items-center grow justify-center tracking-widest bg-transparent md:bg-transparent`}
         >
           <Link
             onClick={() => {
@@ -106,7 +106,7 @@ const Nav = () => {
               <div
                 className={`flex flex-col lg:flex-row gap-4 absolute -left-8 ${
                   showCart ? 'top-14 bg-opacity-0 ' : '-top-[270%] -rotate-90'
-                } transition-all ease-in-out shadow-xl lg:rotate-0 lg:shadow-none rounded-b-lg duration-500 lg:static z-10 bg-gradient-to-tl from-indigo-900 to-indigo-800 lg:bg-opacity-0 p-3 `}
+                } transition-all ease-in-out shadow-xl lg:rotate-0 lg:shadow-none rounded-b-lg duration-500 lg:static z-10 bg-transparent lg:bg-opacity-0 p-3 `}
               >
                 <Link href="/cart" role="button">
                   <div className="relative flex hover:animate-bounce">

@@ -26,7 +26,7 @@ const team = () => {
             <p className="text-xl font-semibold">Muhammad Arsya Putra</p>
             <p>Front-End</p>
           </div>
-          <div className=" flex flex-col items-center">
+          {/* <div className=" flex flex-col items-center">
             <div>
               <Image
                 src={rangga}
@@ -38,8 +38,8 @@ const team = () => {
             </div>
             <p className="text-xl font-semibold">Dwi Rangga Rhaditya</p>
             <p>Front-End</p>
-          </div>{' '}
-          <div className=" flex flex-col items-center">
+          </div>{' '} */}
+          {/* <div className=" flex flex-col items-center">
             <div>
               <Image
                 src={sarah}
@@ -51,7 +51,7 @@ const team = () => {
             </div>
             <p className="text-xl font-semibold">Sarah Puspa Dewi</p>
             <p>Database Engineer</p>
-          </div>{' '}
+          </div>{' '} */}
           <div className=" flex flex-col items-center">
             <div>
               <Image
@@ -78,19 +78,19 @@ const team = () => {
             <p className="text-xl font-semibold">Ahmad Ali Masykur</p>
             <p>Back-End</p>
           </div>
-          <div className=" flex flex-col items-center">
-            <div>
-              <Image
-                src={algamma}
-                width={250}
-                height={250}
-                className=""
-                objectFit="responsive"
-              />
-            </div>
-            <p className="text-xl font-semibold">Algamma Paramayudha</p>
-            <p>UI Designer</p>
-          </div>
+            {/* <div className=" flex flex-col items-center">
+              <div>
+                <Image
+                  src={algamma}
+                  width={250}
+                  height={250}
+                  className=""
+                  objectFit="responsive"
+                />
+              </div>
+              <p className="text-xl font-semibold">Algamma Paramayudha</p>
+              <p>UI Designer</p>
+            </div> */}
         </div>
       </div>
     </LayoutNav>
